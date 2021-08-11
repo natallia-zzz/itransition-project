@@ -8,9 +8,9 @@ import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class AppController {
@@ -37,6 +37,8 @@ public class AppController {
         return "register_success";
     }
 
+
+
     @GetMapping("/users")
     public String listUsers(Model model) {
         List<User> listUsers = service.listAll();
@@ -58,6 +60,50 @@ public class AppController {
     public String saveUser(User user) {
         service.save(user);
 
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/select")
+    public String select(@RequestParam(value="ids") List<Long> ids,Model model){
+        model.addAttribute("ids",ids);
+        return "redirect:/users/select";
+    }
+
+    @RequestMapping(value = "/users/select", method = RequestMethod.POST, params = "delete")
+    public String delete(@RequestParam(value="ids") List<Long> ids )
+    {
+        if(ids != null){
+            for(Long id : ids){
+                service.delete(id);
+            }
+        }
+        return "redirect:/users";
+    }
+    @RequestMapping(value = "/users/select", method = RequestMethod.POST, params = "toAdmin")
+    public String admin(@RequestParam(value="ids") List<Long> ids, HttpSession session)
+    {
+        if(ids != null){
+            for(Long id : ids){
+                if(service.checkRole(service.get(id)))
+                {
+                    service.deleteRole(service.get(id));
+                    session.invalidate();
+                }
+                else service.addRole(service.get(id));
+            }
+        }
+        return "redirect:/users";
+    }
+    @RequestMapping(value = "/users/select", method = RequestMethod.POST, params = "block")
+    public String block(@RequestParam(value="ids") List<Long> ids, HttpSession session)
+    {
+        if(ids!=null)
+        {
+            for(Long id : ids)
+            {
+                service.changeStatus(service.get(id),session);
+            }
+        }
         return "redirect:/users";
     }
 }

@@ -34,6 +34,8 @@ public class User {
 
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
+    @Column(name="isactive")
+    private boolean isactive;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -78,10 +80,13 @@ public class User {
     public String getLastName() {
         return lastName;
     }
+    public boolean gerIsactive(){return isactive;}
 
+    public void setIsactive(boolean isactive){this.isactive=isactive;}
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 
     public Set<Role> getRoles() {
         return roles;
@@ -94,4 +99,5 @@ public class User {
     public void addRole(Role role) {
         this.roles.add(role);
     }
+    public void deleteRole(Role role){this.roles.remove(role);}
 }

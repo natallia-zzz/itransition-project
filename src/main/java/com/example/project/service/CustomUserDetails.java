@@ -58,7 +58,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        if(user.gerIsactive()) return true;
+        return false;
     }
 
     public String getFullName() {

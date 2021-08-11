@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="ISO-8859-1">
     <title>Edit User - CodeJava</title>
@@ -8,12 +9,13 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div th:replace="~{header :: header}"></div>
 <div class="container text-center">
     <div>
         <h1>Edit User</h1>
     </div>
     <form th:action="@{/users/save}" th:object="${user}"
-          method="post" style="max-width: 600px; margin: 0 auto;">
+           style="max-width: 600px; margin: 0 auto;">
         <input type="hidden" th:field="*{id}" />
         <div class="m-3">
             <div class="form-group row">
