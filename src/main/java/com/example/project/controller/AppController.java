@@ -1,11 +1,19 @@
 package com.example.project.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.example.project.entity.Collection;
 import com.example.project.entity.Role;
 import com.example.project.entity.User;
+import com.example.project.service.CollectionService;
+import com.example.project.service.CustomUserDetails;
 import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +25,9 @@ public class AppController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private CollectionService collectionService;
 
     @GetMapping("")
     public String viewHomePage() {
@@ -60,4 +71,42 @@ public class AppController {
 
         return "redirect:/users";
     }
+
+    @GetMapping("/collections")
+    public String collections(Model model) {
+        List<Collection> collections = collectionService.listAll();
+        model.addAttribute("collections", collections);
+        return "collections";
+    }
+
+    @GetMapping("/collections/{id}")
+    public String userCollections(@PathVariable("id") Long id, Model model) {
+        User user = service.get(id);
+        List<Collection> collections = service.listCollections();
+        model.addAttribute("collections", collections);
+        model.addAttribute("owner", user);
+        return "user_collection";
+    }
+
+    @PostMapping("/collections/delete")
+    public String deleteCollection(Collection collection){
+        collectionService.delete(collection);
+        return "redirect:/collections";
+    }
+
+    @GetMapping("/collections/new")
+    public String showNewCollectionForm(Model model){
+        model.addAttribute("collection", new Collection());
+        return "collection_form";
+    }
+
+    @PostMapping("/collection/add")
+    public String addNewCollection(Collection collection){
+        CustomUserDetails myUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        collection.setOwner(myUserDetails.getUser());
+        collectionService.update(collection);
+        return "redirect:/collections";
+    }
+
 }

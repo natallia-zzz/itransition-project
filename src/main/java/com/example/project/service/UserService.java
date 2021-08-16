@@ -1,6 +1,8 @@
 package com.example.project.service;
 import java.util.List;
 
+import com.example.project.entity.Collection;
+import com.example.project.repository.CollectionRepository;
 import com.example.project.repository.RoleRepository;
 import com.example.project.repository.UserRepository;
 import com.example.project.entity.Role;
@@ -19,6 +21,9 @@ public class UserService {
     @Autowired
     RoleRepository roleRepo;
 
+    @Autowired
+    CollectionRepository collectionRepo;
+
     @Autowired PasswordEncoder passwordEncoder;
 
     public void registerDefaultUser(User user) {
@@ -36,8 +41,14 @@ public class UserService {
         return userRepo.findById(id).get();
     }
 
+    public User getByName(String name){ return userRepo.findByEmail(name);}
+
     public List<Role> listRoles() {
         return roleRepo.findAll();
+    }
+
+    public List<Collection> listCollections() {
+        return collectionRepo.findAll();
     }
 
     public void save(User user) {
