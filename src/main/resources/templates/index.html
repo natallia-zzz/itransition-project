@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
 <head>
     <meta charset="ISO-8859-1">
     <title>List Users</title>
@@ -13,14 +12,16 @@
 <div th:replace="~{header :: header}"></div>
 <div class="container">
     <h6>Users</h6>
-        <div class="col-4">
-
-            <tr th:each="user: ${listUsers}">
-                <p>text</p>
-                <td th:text="${user.firstName}" />
-                <td th:text="${user.lastName}" />
-            </tr>
-    </div>
+                <table>
+                    <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+                    <th:block th:each="user : ${listUsers}">
+                        <tr>
+                            <td>
+                                <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />
+                            </td>
+                        </tr>
+                    </th:block>
+                </table>
 </div>
 
 </body>

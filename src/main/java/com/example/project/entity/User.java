@@ -80,7 +80,7 @@ public class User {
     public String getLastName() {
         return lastName;
     }
-    public boolean gerIsactive(){return isactive;}
+    public boolean getIsactive(){return isactive;}
 
     public void setIsactive(boolean isactive){this.isactive=isactive;}
     public void setLastName(String lastName) {
@@ -100,4 +100,7 @@ public class User {
         this.roles.add(role);
     }
     public void deleteRole(Role role){this.roles.remove(role);}
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
 }

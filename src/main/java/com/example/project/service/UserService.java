@@ -1,4 +1,5 @@
 package com.example.project.service;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.project.repository.RoleRepository;
@@ -30,9 +31,13 @@ public class UserService {
         encode(user);
         userRepo.save(user);
     }
-    public void changeStatus(User user, HttpSession session)
+    public boolean emailExist(String email) {
+        return userRepo.findByEmail(email) != null;
+    }
+
+    public void changeStatus(User user)
     {
-        if(user.gerIsactive()) {user.setIsactive(false); session.invalidate();}
+        if(user.getIsactive()) {user.setIsactive(false);}
         else user.setIsactive(true);
         userRepo.save(user);
     }
@@ -65,6 +70,14 @@ public class UserService {
 
     public List<Role> listRoles() {
         return roleRepo.findAll();
+    }
+
+    public List<String> listEmails(List<Long> ids)
+    {
+        List<String> emails=new ArrayList<String>();
+        for(Long id:ids)
+            emails.add(userRepo.findById(id).get().getEmail());
+        return emails;
     }
 
     public void save(User user) {
