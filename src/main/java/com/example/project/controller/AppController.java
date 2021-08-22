@@ -1,9 +1,12 @@
 package com.example.project.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.example.project.entity.Collection;
+import com.example.project.entity.Item;
 import com.example.project.entity.Role;
 import com.example.project.entity.User;
 import com.example.project.service.CollectionService;
@@ -16,9 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AppController {
@@ -109,4 +112,40 @@ public class AppController {
         return "redirect:/collections";
     }
 
+    @GetMapping("/collections/{id}/view")
+    public String viewCollection(@PathVariable("id") int id,Model model){
+        Collection collection = collectionService.get(id);
+        model.addAttribute("collection", collection);
+        return "view_collection";
+
+    }
+
+    @GetMapping("/collections/{id}/edit")
+    public String editCollection(@PathVariable("id") int id,Model model){
+        Collection collection = collectionService.get(id);
+        model.addAttribute("collection", collection);
+        return "edit_collection";
+    }
+
+    @PostMapping("/collections/{id}/save")
+    public String saveCollection(@PathVariable("id") int id, Collection collection){
+        CustomUserDetails myUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        collection.setOwner(myUserDetails.getUser());
+        Set<Item> items = collection.getItems();
+        if(items != null){
+            collection.getItems().clear();
+            collection.getItems().addAll(items);
+        }
+        collection.setItems(items);
+        collectionService.update(collection);
+        return "redirect:/collections";
+    }
+
+
+    @PostMapping("/collections/{id}/delete")
+    public String deleteCollection(@PathVariable("id") int id, Collection collection){
+        collectionService.delete(collection);
+        return "redirect:/collections";
+    }
 }

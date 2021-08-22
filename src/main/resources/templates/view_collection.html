@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>View collection</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="align-content-lg-center">
+    <div class="title">
+        <h1 th:text="${collection.name}">hello</h1>
+        <form th:action="@{'/collections/' + ${collection.id}+'/edit'}"
+              method="get" style="max-width: 600px; margin: 0 auto;">
+            <button type="submit" class="btn btn-primary">edit</button>
+        </form>
+        <form th:action="@{'/collections/' + ${collection.id}+'/delete'}" th:object="${collection}"
+              method="post" style="max-width: 600px; margin: 0 auto;">
+            <button type="submit" class="btn btn-primary">delete</button>
+        </form>
+    </div>
+    <div class="sub-title">
+        <h3>this collection belongs to <a th:text="${collection.owner.getFullName()}"></a></h3>
+    </div>
+    <div>
+        <p th:text="${collection.getDescription()}"></p>
+    </div>
+
+</div>
+</body>
+</html>

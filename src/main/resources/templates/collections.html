@@ -20,14 +20,18 @@
             <tr>
                 <th>Collection ID</th>
                 <th>Name</th>
-                <th>owner first name</th>
+                <th>Owner</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="col: ${collections}">
                 <td th:text="${col.id}">Collection ID</td>
-                <td th:text="${col.name}">Name</td>
-                <td th:text="${col.owner.getFirstName}">owner first name</td>
+                <td>
+                    <a th:href="@{'/collections/' + ${col.id}+'/view'}",  th:text="${col.name}">
+                        Name
+                    </a>
+                </td>
+                <td th:text="${col.owner.getFullName()}">Owner</td>
             </tr>
             </tbody>
         </table>

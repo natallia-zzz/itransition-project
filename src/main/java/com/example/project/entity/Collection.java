@@ -18,8 +18,9 @@ public class Collection{
     @Column(nullable = false, length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "collection",
-            cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "collection"
+//            cascade = CascadeType.REMOVE, orphanRemoval = true
+    )
     private Set<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
