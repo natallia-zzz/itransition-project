@@ -8,23 +8,28 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="align-content-lg-center">
+<div>
     <div class="title">
         <h1 th:text="${collection.name}">hello</h1>
-        <form th:action="@{'/collections/' + ${collection.id}+'/edit'}"
-              method="get" style="max-width: 600px; margin: 0 auto;">
-            <button type="submit" class="btn btn-primary">edit</button>
-        </form>
-        <form th:action="@{'/collections/' + ${collection.id}+'/delete'}" th:object="${collection}"
-              method="post" style="max-width: 600px; margin: 0 auto;">
-            <button type="submit" class="btn btn-primary">delete</button>
-        </form>
     </div>
     <div class="sub-title">
         <h3>this collection belongs to <a th:text="${collection.owner.getFullName()}"></a></h3>
     </div>
+    <div class="span6">
+        <form th:action="@{'/collections/' + ${collection.id}+'/edit'}"
+              method="get">
+            <button type="submit" class="btn btn-primary">edit</button>
+        </form>
+        <form th:action="@{'/collections/delete'}" th:object="${collection}"
+              method="post">
+            <button type="submit" class="btn btn-primary">delete</button>
+        </form>
+    </div>
     <div>
         <p th:text="${collection.getDescription()}"></p>
+    </div>
+    <div>
+        <a th:href="@{'/collections/' + ${collection.id}+'/items'}" th:text="items"></a>
     </div>
 
 </div>

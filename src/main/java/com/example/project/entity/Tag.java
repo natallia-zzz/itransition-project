@@ -1,5 +1,8 @@
 package com.example.project.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "tags")
 public class Tag {
     @Id
