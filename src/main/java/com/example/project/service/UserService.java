@@ -2,11 +2,13 @@ package com.example.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.project.entity.AuthenticationProvider;
 import com.example.project.repository.RoleRepository;
 import com.example.project.repository.UserRepository;
 import com.example.project.entity.Role;
 import com.example.project.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,7 @@ public class UserService {
     public User get(Long id) {
         return userRepo.findById(id).get();
     }
+    public User get(String email){return userRepo.findByEmail(email);}
 
     public List<Role> listRoles() {
         return roleRepo.findAll();
@@ -94,5 +97,34 @@ public class UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+    }
+
+    public void registerDefaultOAuthUser(String email, String name, AuthenticationProvider provider) {
+        User user=new User();
+        user.setEmail(email);
+        String[] str = name.split("\\s+");
+        user.setFirstName(str[0]);
+        user.setLastName(str[1]);
+        user.setAuthProvider(provider);
+        Role roleUser = roleRepo.findByName("ROLE_USER");
+        user.addRole(roleUser);
+        user.setIsactive(true);
+        userRepo.save(user);
+    }
+
+    public void updateUser(User user, AuthenticationProvider provider) {
+        user.setAuthProvider(provider);
+        userRepo.save(user);
+    }
+
+    public void processLoginData(String email, String name)
+    {
+        User user=this.get(email);
+        if(user==null)
+        {
+            this.registerDefaultOAuthUser(email,name, AuthenticationProvider.GOOGLE );
+        }else {
+            this.updateUser(user, AuthenticationProvider.GOOGLE);
+        }
     }
 }

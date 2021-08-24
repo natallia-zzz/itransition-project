@@ -4,16 +4,7 @@ package com.example.project.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -26,7 +17,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
-    @Column(nullable = false, length = 64)
+    @Column(length = 64)
     private String password;
 
     @Column(name = "first_name", nullable = false, length = 20)
@@ -36,6 +27,10 @@ public class User {
     private String lastName;
     @Column(name="isactive")
     private boolean isactive;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="auth_provider")
+    private AuthenticationProvider authProvider;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -87,6 +82,13 @@ public class User {
         this.lastName = lastName;
     }
 
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
+    }
 
     public Set<Role> getRoles() {
         return roles;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.project.entity.Role;
 import com.example.project.entity.User;
+import com.example.project.oath.CustomOAuth2User;
 import com.example.project.service.CustomUserDetails;
 import com.example.project.service.UserService;
 import org.hibernate.Session;
@@ -36,6 +37,7 @@ public class AppController {
         model.addAttribute("listUsers", listUsers);
         return "index";
     }
+
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -78,12 +80,14 @@ public class AppController {
     }
 
     @GetMapping("/profile")
-    public String showMyProfile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        Long id=userDetails.getId();
-        User user = service.get(id);
+    public String showMyProfile(@AuthenticationPrincipal Principal principal, Model model) {
+        String username=principal.getName();
+        //Long id=userDetails.getId();
+        User user = service.get(username);
         model.addAttribute("user", user);
         return "profile";
     }
+
 
     @PostMapping("/users/save")
     public String saveUser(User user) {
