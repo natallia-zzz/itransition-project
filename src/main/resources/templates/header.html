@@ -39,8 +39,7 @@
         </li>
       </ul>
       <span class="navbar-text" sec:authorize="isAuthenticated()">
-         <b>[[${#request.userPrincipal.principal.fullName}]] </b>
-
+       <span th:text="${#authentication.getPrincipal().getFullName()}"></span>
       </span>
 
     </div>

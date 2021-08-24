@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>View collection</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div>
+    <div class="title">
+        <h1 th:text="${collection.name}">hello</h1>
+    </div>
+    <div class="sub-title">
+        <h3>this collection belongs to <a th:text="${collection.owner.getFullName()}"></a></h3>
+    </div>
+    <div class="span6">
+        <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit'}"
+              method="get">
+            <button type="submit" class="btn btn-primary">edit</button>
+        </form>
+        <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/'+ ${collection.id}+'/delete'}"
+              method="post">
+            <button type="submit" class="btn btn-primary">delete</button>
+        </form>
+    </div>
+    <div>
+        <p th:text="${collection.getDescription()}"></p>
+    </div>
+    <div>
+        <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/items'}" th:text="items"></a>
+    </div>
+
+</div>
+</body>
+</html>

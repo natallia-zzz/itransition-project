@@ -2,7 +2,13 @@ package com.example.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+
+import java.util.HashSet;
+
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 import com.example.project.entity.Role;
 import com.example.project.entity.User;
@@ -23,6 +29,20 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.example.project.entity.*;
+import com.example.project.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+
 @Controller
 public class AppController {
     @Resource(name = "sessionRegistry")
@@ -33,8 +53,7 @@ public class AppController {
 
     @GetMapping("")
     public String viewHomePage(Model model) {
-        List<User> listUsers = service.listAll();
-        model.addAttribute("listUsers", listUsers);
+        this.addUsers(model);
         return "index";
     }
 
@@ -72,20 +91,30 @@ public class AppController {
         return "user_form";
     }
 
+    public void addUsers(Model model)
+    {
+        List<User> listUsers = service.listAll();
+        model.addAttribute("listUsers", listUsers);
+    }
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable("id") Long id, Model model) {
         User user = service.get(id);
+        this.addUsers(model);
+        List<Collection> collections = service.listCollections(user);
+        model.addAttribute("collections", collections);
         model.addAttribute("user", user);
-        return "profile";
+        return "index";
     }
 
     @GetMapping("/profile")
-    public String showMyProfile(@AuthenticationPrincipal Principal principal, Model model) {
-        String username=principal.getName();
-        //Long id=userDetails.getId();
-        User user = service.get(username);
+    public String showMyProfile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        Long id=userDetails.getId();
+        User user = service.get(id);
+        List<Collection> collections = service.listCollections(user);
+        this.addUsers(model);
+        model.addAttribute("collections", collections);
         model.addAttribute("user", user);
-        return "profile";
+        return "index";
     }
 
 
@@ -152,3 +181,4 @@ public class AppController {
         }
     }
 }
+

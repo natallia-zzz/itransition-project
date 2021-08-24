@@ -2,7 +2,12 @@ package com.example.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.example.project.entity.AuthenticationProvider;
+
+import com.example.project.entity.Collection;
+import com.example.project.repository.CollectionRepository;
+
 import com.example.project.repository.RoleRepository;
 import com.example.project.repository.UserRepository;
 import com.example.project.entity.Role;
@@ -23,6 +28,9 @@ public class UserService {
 
     @Autowired
     RoleRepository roleRepo;
+
+    @Autowired
+    CollectionRepository collectionRepo;
 
     @Autowired PasswordEncoder passwordEncoder;
 
@@ -71,16 +79,26 @@ public class UserService {
     }
     public User get(String email){return userRepo.findByEmail(email);}
 
+    public User getByName(String name){ return userRepo.findByEmail(name);}
+
     public List<Role> listRoles() {
         return roleRepo.findAll();
     }
 
-    public List<String> listEmails(List<Long> ids)
-    {
-        List<String> emails=new ArrayList<String>();
-        for(Long id:ids)
+
+    public List<String> listEmails(List<Long> ids) {
+        List<String> emails = new ArrayList<String>();
+        for (Long id : ids)
             emails.add(userRepo.findById(id).get().getEmail());
         return emails;
+    }
+
+    public List<Collection> listCollections() {
+        return collectionRepo.findAll();
+    }
+    public List<Collection> listCollections(User user)
+    {
+        return collectionRepo.findByOwnerId(user.getId());
     }
 
     public void save(User user) {

@@ -13,7 +13,7 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User {
 
     private OAuth2User oAuth2User;
-    
+
 
     public CustomOAuth2User(OAuth2User oAuth2User) {
         this.oAuth2User = oAuth2User;
@@ -26,6 +26,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return oAuth2User.getAuthorities();
     }
 

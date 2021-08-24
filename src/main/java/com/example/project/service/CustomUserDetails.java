@@ -31,6 +31,9 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
+    public User getUser() {
+        return user;
+    }
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -40,6 +43,7 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -67,4 +71,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public Long getId(){return user.getId();}
+
+    public boolean getRole(){return user.checkRole();}
 }

@@ -105,4 +105,12 @@ public class User {
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
+
+    public boolean checkRole()
+    {
+        for (Role role:this.roles)
+            if(role.getName().equals("ROLE_ADMIN")) return true;
+        return false;
+    }
+
 }
