@@ -31,5 +31,5 @@ public class Item {
     @JoinColumn(name = "collection_id", nullable = false)
     private Collection collection;
 
-
+    public Item(){};
 }
