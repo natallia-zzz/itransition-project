@@ -19,4 +19,10 @@ public class ItemService {
     }
 
     public List<Item> getByCollectionId(int id){ return itemRepository.findByCollectionId(id);}
+
+    public void update(Item item){itemRepository.save(item);}
+
+    public Item get(int id){ return itemRepository.getById(id);}
+
+    public void delete(Item item){ itemRepository.delete(item);}
 }

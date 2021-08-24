@@ -92,7 +92,6 @@ public class CollectionController {
         return "redirect:/collections";
     }
 
-
     @PostMapping("/collections/{id}/delete")
     public String deleteCollection(@PathVariable("id") int id, Collection collection){
         collectionService.delete(collection);

@@ -9,12 +9,12 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div>
-    <h1>List of Collections</h1>
-</div>
 <div class="container text-center">
     <div>
-        <h3><a th:href="@{'/collections/' + ${collection.id}+'/newitem'}">add</a></h3>
+        <h1>List of Collections</h1>
+    </div>
+    <div>
+        <h3><a th:href="@{'/collections/' + ${collection.id}+'/new_item'}">add</a></h3>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
@@ -32,6 +32,8 @@
                         <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
                     </ul>
                 </td>
+                <td th:border="none" th:background="transparent"><a th:href="@{'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="edit"></a></td>
+                <td th:border="none" th:background="transparent"><a th:href="@{'/collections/' + ${collection.id}+'/delete_item/' + ${item.id} }" th:text="delete"></a></td>
             </tr>
             </tbody>
         </table>
