@@ -15,15 +15,9 @@
     <div class="sub-title">
         <h3>this collection belongs to <a th:text="${collection.owner.getFullName()}"></a></h3>
     </div>
-    <div class="span6">
-        <form th:action="@{'/collections/' + ${collection.id}+'/edit'}"
-              method="get">
-            <button type="submit" class="btn btn-primary">edit</button>
-        </form>
-        <form th:action="@{'/collections/delete'}" th:object="${collection}"
-              method="post">
-            <button type="submit" class="btn btn-primary">delete</button>
-        </form>
+    <div>
+        <a th:href="@{'/collections/' + ${collection.id}+'/edit'}" th:text="'edit'"></a>
+        <a th:href="@{'/collections/' + ${collection.id}+'/delete'}" th:text="'delete'"></a>
     </div>
     <div>
         <p th:text="${collection.getDescription()}"></p>

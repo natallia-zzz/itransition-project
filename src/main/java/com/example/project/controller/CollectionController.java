@@ -41,12 +41,6 @@ public class CollectionController {
         return "user_collection";
     }
 
-    @PostMapping("/collections/delete")
-    public String deleteCollection(Collection collection){
-        collectionService.delete(collection);
-        return "redirect:/collections";
-    }
-
     @GetMapping("/collections/new")
     public String showNewCollectionForm(Model model){
         model.addAttribute("collection", new Collection());
@@ -92,8 +86,15 @@ public class CollectionController {
         return "redirect:/collections";
     }
 
-    @PostMapping("/collections/{id}/delete")
-    public String deleteCollection(@PathVariable("id") int id, Collection collection){
+    @GetMapping("/collections/{id}/delete")
+    public String deleteCollection(@PathVariable("id") int id, Model model){
+        Collection collection = collectionService.get(id);
+        model.addAttribute("collection", collection);
+        return "delete_collection";
+    }
+
+    @PostMapping("/collections/delete")
+    public String deleteCollection(Collection collection){
         collectionService.delete(collection);
         return "redirect:/collections";
     }
