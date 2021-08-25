@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ItemController {
@@ -43,8 +42,6 @@ public class ItemController {
         Collection collection = collectionService.get(id);
         model.addAttribute("item", new Item());
         model.addAttribute("collection", collection);
-        List<Tag> listTags = itemService.listTags();
-        model.addAttribute("listTags", listTags);
         model.addAttribute("other", "");
         return "new_item";
     }
@@ -54,10 +51,13 @@ public class ItemController {
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid, Item item,
                           @RequestParam String otherTag){
         if(otherTag!=""){
+            List<String> tagStringList = Arrays.asList(otherTag.split(","));
+            Tag temporaryTag;
             Set<Tag> tags = item.getTags();
-            itemService.saveTag(new Tag(otherTag));
-            Tag tag = itemService.getLastTag();
-            tags.add(tag);
+            for (String element : tagStringList) {
+                temporaryTag = itemService.saveTag(element);
+                tags.add(temporaryTag);
+            }
             item.setTags(tags);
         }
         Collection collection = collectionService.get(id);
@@ -71,11 +71,14 @@ public class ItemController {
     public String editItem(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid,Model model){
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
+        Set<Tag> tags = item.getTags();
+        List<String> stringList = new ArrayList<>();
+        for (Tag element : tags) {
+            stringList.add(element.getName());
+        }
         model.addAttribute("collection", collection);
         model.addAttribute("item", item);
-        List<Tag> listTags = itemService.listTags();
-        model.addAttribute("listTags", listTags);
-        model.addAttribute("other", "");
+        model.addAttribute("other", String.join(",", stringList));
         return "edit_item";
     }
 
@@ -84,10 +87,13 @@ public class ItemController {
     public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId,
                            Item item,@RequestParam String otherTag){
         if(otherTag!=""){
+            List<String> tagStringList = Arrays.asList(otherTag.split(","));
+            Tag temporaryTag;
             Set<Tag> tags = item.getTags();
-            itemService.saveTag(new Tag(otherTag));
-            Tag tag = itemService.getLastTag();
-            tags.add(tag);
+            for (String element : tagStringList) {
+                temporaryTag = itemService.saveTag(element);
+                tags.add(temporaryTag);
+            }
             item.setTags(tags);
         }
         item.setId(itemId);

@@ -34,7 +34,18 @@ public class ItemService {
 
     public List<Tag> listTags(){ return tagRepository.findAll();}
 
-    public void saveTag(Tag tag){ tagRepository.save(tag); }
+    public void processTagRequest(List<String> inputStringList){
+
+    }
+
+    public Tag saveTag(String name){
+        if(tagRepository.findByName(name)==null) {
+            Tag tag = new Tag(name);
+            tagRepository.save(tag);
+            return getLastTag();
+        }
+        return tagRepository.findByName(name);
+    }
 
     public Tag getLastTag(){
         return tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);

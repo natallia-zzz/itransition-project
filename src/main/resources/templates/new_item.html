@@ -25,14 +25,7 @@
             <div class="form-group row">
                 <label class="col-4 col-form-label">Tags: </label>
                 <div class="col-8">
-                    <th:block th:each="tag: ${listTags}">
-                        <input type="checkbox" th:field="*{tag}"
-                               th:text="${tag.name}" th:value="${tag.id}" class="m-2" />
-                    </th:block>
-                </div>
-                <label class="col-4 col-form-label">other: </label>
-                <div class="col-8">
-                    <input type="text" th:value="${other}" name="otherTag"/>
+                    <input type="text" th:value="${other}" class="form-control" name="otherTag"/>
                 </div>
             </div>
             <div>
