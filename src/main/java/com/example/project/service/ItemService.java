@@ -29,10 +29,8 @@ public class ItemService {
     public List<Item> findLatest() {
         List<Item> items =this.listAll();
         int size=items.size();
-        try{
-            return items.subList(size-Math.min(size,5), size);}
-        catch(Exception e) {
-            return null;
-    }
+        if(size<5) return items;
+        else return items.subList(size-Math.min(size,5), size);
+
     }
 }

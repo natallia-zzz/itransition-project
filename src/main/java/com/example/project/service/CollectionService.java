@@ -32,10 +32,8 @@ public class CollectionService {
                 return size1 > size2 ? -1 : size1 == size2 ? 0 : 1;
             }
         });
-        try{
-            return collections.subList(0,5);}
-        catch(Exception e) {
-            return null;
-        }
+
+        if(collections.size()<5) return collections.subList(0,collections.size());
+        else return collections.subList(0,5);
     }
 }
