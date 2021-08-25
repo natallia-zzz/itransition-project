@@ -13,7 +13,7 @@
     <div>
         <h1>New item </h1>
     </div>
-    <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/save_item'}" th:object="${item}"
+    <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/save_item/'+${item.id}}" th:object="${item}"
           method="post" style="max-width: 600px; margin: 0 auto;">
         <div class="m-3">
             <div class="form-group row">

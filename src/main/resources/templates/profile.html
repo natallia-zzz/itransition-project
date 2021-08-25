@@ -27,7 +27,6 @@
                     <div sec:authorize="!isAuthenticated()">
                         <span th:text="${col.name}"></span>
                     </div>
-                    <div th:utext="${col.markdown}">Content</div>
                 </td>
             </tr>
         </th:block>

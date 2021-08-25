@@ -5,6 +5,7 @@ import com.example.project.entity.Item;
 import com.example.project.entity.User;
 import com.example.project.service.CollectionService;
 import com.example.project.service.CustomUserDetails;
+import com.example.project.service.ItemService;
 import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,9 @@ public class CollectionController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private ItemService itemService;
 
 //    @GetMapping("/collections")
 //    public String collections(Model model) {
@@ -99,6 +103,9 @@ public class CollectionController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("profile/{uid}/collections/{id}/delete")
     public String deleteCollection(@PathVariable("uid") Long uid,@PathVariable("id") int id){
+       // collectionService.delete(id);
+        List<Item> items=itemService.getByCollectionId(id);
+        for (Item item:items) itemService.delete(item.getId());
         collectionService.delete(id);
         return "redirect:/profile/"+uid;
     }

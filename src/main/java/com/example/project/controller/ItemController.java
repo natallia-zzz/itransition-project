@@ -62,8 +62,9 @@ public class ItemController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
-    @PostMapping("/profile/{uid}/collections/{id}/save_item")
-    public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid, Item item){
+    @PostMapping("/profile/{uid}/collections/{id}/save_item/{item_id}")
+    public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId,Item item){
+        item.setId(itemId);
         item.setCollection(collectionService.get(id));
         itemService.update(item);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/items";
@@ -80,9 +81,9 @@ public class ItemController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
-    @PostMapping("/profile/{uid}/collections/{id}/delete_item")
-    public String deleteItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,Item item){
-        itemService.delete(item.getId());
+    @PostMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
+    public String deleteItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId){
+        itemService.delete(itemId);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/items";
     }
 
