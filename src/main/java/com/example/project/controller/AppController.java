@@ -51,6 +51,9 @@ public class AppController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private TopicService topicService;
+
     @GetMapping("")
     public String viewHomePage(Model model) {
         this.addUsers(model);
@@ -77,6 +80,8 @@ public class AppController {
     @GetMapping("/users")
     public String listUsers(Model model) {
         List<User> listUsers = service.listAll();
+        List<Topic> listTopics=topicService.listAll();
+        model.addAttribute("listTopics",listTopics);
         model.addAttribute("listUsers", listUsers);
 
         return "users";
@@ -141,6 +146,27 @@ public class AppController {
         }
         return "redirect:/users";
     }
+
+    @RequestMapping(value="/users/topics/action",method = {RequestMethod.GET,RequestMethod.POST}, params = "add")
+    public String addTopic(Model model)
+    {
+        model.addAttribute("topic",new Topic());
+        return "new_topic";
+    }
+    @RequestMapping(value="/users/topics/action", method = {RequestMethod.POST,RequestMethod.GET}, params = "delete")
+    public String deleteItems(@RequestParam(value="ids", required = false) List <Integer> ids){
+        if (ids != null)
+            for (Integer itemId : ids)
+                topicService.delete(itemId);
+        return "redirect:/users";
+    }
+
+    @PostMapping("/users/topics/add_topic")
+    public String addItem(Topic topic){
+        topicService.update(topic);
+        return "redirect:/users";
+    }
+
     @RequestMapping(value = "/users/select", method = RequestMethod.POST, params = "toAdmin")
     public String admin(@RequestParam(value="ids") List<Long> ids, HttpServletRequest request)
     {

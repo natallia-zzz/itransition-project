@@ -2,6 +2,9 @@ package com.example.project.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +30,10 @@ public class Collection{
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
     @Column
     private String description;
 
@@ -36,4 +43,10 @@ public class Collection{
         this.name = name;
     }
 
+    public String markdownToHtml() {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(this.description);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
+    }
 }

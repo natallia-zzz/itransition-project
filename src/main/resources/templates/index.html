@@ -12,7 +12,7 @@
 
 <div th:replace="~{header :: header}"></div>
 <div class="row">
-<div class="col-4">
+<div class="container ml-3 col-2">
     <h6>Users</h6>
                 <table>
                     <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
@@ -25,7 +25,7 @@
                     </th:block>
                 </table>
 </div>
-    <div class="col-8" th:replace="profile.html :: div.col-8"> </div>
+    <div class="col-10" th:replace="profile.html :: div.col-10"> </div>
 </div>
 <!--<h3><a th:href="@{/collections}">Collections</a></h3>-->
 </body>
