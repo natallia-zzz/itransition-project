@@ -8,13 +8,14 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div th:replace="~{header :: header}"></div>
 <div>
     <div class="title">
         <h1 th:text="'Deleting item'">hello</h1>
     </div>
     <div class="sub-title">
-        <h3 th:text="'Are you sure you want to delete'+${item.getName()}"></h3>
-        <form th:action="@{'/collections/'+${collection.id}+'/delete_item'}" th:object="${item}"
+        <h3 th:text="'Are you sure you want to delete '+${item.getName()}"></h3>
+        <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/'+${collection.id}+'/delete_item/'+${item.getId()}}" th:object="${item}"
               method="post">
             <button type="submit" class="btn btn-primary">delete</button>
         </form>

@@ -41,6 +41,7 @@ public class UserRepositoryTests {
         user.setPassword(encodedPassword);
         user.setFirstName("Admin");
         user.setLastName("Admin");
+        user.setIsactive(true);
         user.addRole(roleAdmin);
 
         User savedUser = userRepo.save(user);

@@ -25,8 +25,9 @@ public class Collection{
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
-    @Column(columnDefinition = "TEXT")
+    @Column
     private String description;
+
 
     public Collection(){}
     public Collection(String name){

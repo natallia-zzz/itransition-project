@@ -2,9 +2,12 @@ package com.example.project.service;
 
 import com.example.project.entity.Collection;
 import com.example.project.entity.Item;
+import com.example.project.entity.Tag;
 import com.example.project.repository.ItemRepository;
+import com.example.project.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.List;
 public class ItemService {
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    TagRepository tagRepository;
 
     public List<Item> listAll() {
         return itemRepository.findAll();
@@ -24,5 +30,13 @@ public class ItemService {
 
     public Item get(int id){ return itemRepository.getById(id);}
 
-    public void delete(Item item){ itemRepository.delete(item);}
+    public void delete(int id){ itemRepository.deleteById(id);}
+
+    public List<Tag> listTags(){ return tagRepository.findAll();}
+
+    public void saveTag(Tag tag){ tagRepository.save(tag); }
+
+    public Tag getLastTag(){
+        return tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
+    }
 }

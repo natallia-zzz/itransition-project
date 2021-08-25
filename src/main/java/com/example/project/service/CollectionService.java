@@ -15,7 +15,7 @@ public class CollectionService {
     public List<Collection> listAll() {
         return collectionRepo.findAll();
     }
-    public void delete(Collection collection){collectionRepo.delete(collection);}
+    public void delete(Integer id){collectionRepo.deleteById(id);}
     public Collection get(Integer id){return collectionRepo.getById(id);}
     public void update(Collection collection){collectionRepo.save(collection);}
 }
