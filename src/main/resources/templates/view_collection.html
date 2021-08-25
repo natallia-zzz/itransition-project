@@ -132,23 +132,24 @@
                     <th>Item ID</th>
                     <th>Name</th>
                     <th>Tags</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item: ${items}">
                     <td><input type="checkbox" th:name="ids"
                                th:value="${item.id}" class="m-2" /></td>
-                    <td sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}">
-                        <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="${item.name}"></a>
+                    <td>
+                        <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
                     </td>
-                    <td sec:authorize="!isAuthenticated()" th:text="${item.name}"></td>
-                    <td sec:authorize="isAuthenticated()" th:unless="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:text="${item.name}"></td>
+
+                    <td th:border="none" th:background="transparent" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="edit"></a></td>
                     <td>
                         <ul>
                             <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
                         </ul>
                     </td>
-<!--                    <td th:border="none" th:background="transparent" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/delete_item/' + ${item.id} }" th:text="delete"></a></td>-->
+
                 </tr>
                 </tbody>
             </table>

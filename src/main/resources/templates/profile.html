@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="col-10">
+<div class="col-8">
 <div class="container" th:if="${user != null}"><span th:text="${user.getFullName()}"></span>
 
     <div class="container" sec:authorize="isAuthenticated()"><a th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:href="@{'/profile/'+${user.id}+'/collections/new'}">add</a></div>

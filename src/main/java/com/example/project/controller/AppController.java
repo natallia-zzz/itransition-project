@@ -54,9 +54,17 @@ public class AppController {
     @Autowired
     private TopicService topicService;
 
+    @Autowired
+    private CollectionService collectionService;
+
+    @Autowired
+    private ItemService itemService;
+
     @GetMapping("")
     public String viewHomePage(Model model) {
         this.addUsers(model);
+        this.addItems(model);
+        this.addCollections(model);
         return "index";
     }
 
@@ -101,10 +109,23 @@ public class AppController {
         List<User> listUsers = service.listAll();
         model.addAttribute("listUsers", listUsers);
     }
+
+    public void addItems(Model model)
+    {
+        List<Item> items = itemService.findLatest();
+        model.addAttribute("items", items);
+    }
+    public void addCollections(Model model)
+    {
+        List<Collection> cols=collectionService.getTop5();
+        model.addAttribute("cols", cols);
+    }
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable("id") Long id, Model model) {
         User user = service.get(id);
         this.addUsers(model);
+        this.addItems(model);
+        this.addCollections(model);
         List<Collection> collections = service.listCollections(user);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
@@ -117,6 +138,8 @@ public class AppController {
         User user = service.get(id);
         List<Collection> collections = service.listCollections(user);
         this.addUsers(model);
+        this.addItems(model);
+        this.addCollections(model);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
         return "index";

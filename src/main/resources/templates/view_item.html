@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>View item</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<h1><span th:text="${item.name}"></span></h1>
+<div class="container" >
+    <div class="container" sec:authorize="isAuthenticated()">
+    <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id}+'/add_comment' }" th:object="${comment}">
+        <div class="col-8">
+            <textarea class="form-control" id="markdown" name="markdown" rows="10" th:field="*{content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+    </div>
+
+    <h6>Comments</h6>
+    <table>
+        <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+        <th:block th:each="comment : ${comments}">
+            <tr>
+                <td>
+                    <div class="container">
+                        <span th:text="${comment.user.getFullName()}"></span>
+                        <div th:utext="${comment.markdownToHtml()}"></div>
+                    </div>
+                    <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+</html>

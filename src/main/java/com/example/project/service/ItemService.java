@@ -25,4 +25,14 @@ public class ItemService {
     public Item get(int id){ return itemRepository.getById(id);}
 
     public void delete(int id){ itemRepository.deleteById(id);}
+
+    public List<Item> findLatest() {
+        List<Item> items =this.listAll();
+        int size=items.size();
+        try{
+            return items.subList(size-Math.min(size,5), size);}
+        catch(Exception e) {
+            return null;
+    }
+    }
 }

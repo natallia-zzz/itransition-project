@@ -1,11 +1,16 @@
 package com.example.project.controller;
 
 import com.example.project.entity.Collection;
+import com.example.project.entity.Comment;
 import com.example.project.entity.Item;
+import com.example.project.entity.User;
 import com.example.project.service.CollectionService;
+import com.example.project.service.CommentService;
+import com.example.project.service.CustomUserDetails;
 import com.example.project.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,9 @@ public class ItemController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    CommentService commentService;
 
 //    @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
 //    @GetMapping("/profile/{uid}/collections/{id}/items")
@@ -38,6 +46,28 @@ public class ItemController {
         model.addAttribute("item", new Item());
         model.addAttribute("collection", collection);
         return "new_item";
+    }
+
+    @GetMapping("/profile/{uid}/collections/{id}/view_item/{item_id}")
+    public String viewItem(Model model,@PathVariable("item_id") int itemId)
+    {   Item item=itemService.get(itemId);
+        Comment comment=new Comment();
+        List<Comment> comments=commentService.commentList(itemId);
+        model.addAttribute("item",item);
+        model.addAttribute("comment",comment);
+        model.addAttribute("comments",comments);
+        return "view_item";
+    }
+
+    @RequestMapping (value="/profile/{uid}/collections/{id}/view_item/{item_id}/add_comment", method={RequestMethod.POST,RequestMethod.GET})
+    public String addComment(@PathVariable("item_id") int itemId,Comment comment)
+    {
+        CustomUserDetails myUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        comment.setUser(myUserDetails.getUser());
+        comment.setItem(itemService.get(itemId));
+        commentService.save(comment);
+        return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")

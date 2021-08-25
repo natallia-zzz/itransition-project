@@ -9,4 +9,5 @@ public interface CollectionRepository extends JpaRepository<Collection, Integer>
     @Query("SELECT r FROM Collection r WHERE r.owner.id = ?1")
     public List<Collection> findByOwnerId(Long id);
     public List<Collection> findByTopicId(Long id);
+
 }

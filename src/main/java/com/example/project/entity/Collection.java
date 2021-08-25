@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+import com.example.project.HtmlMarcdown;
 import lombok.Getter;
 import lombok.Setter;
 import org.commonmark.node.Node;
@@ -31,7 +32,7 @@ public class Collection{
     private User owner;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "topic_id")
+    @JoinColumn(name = "topic_id",nullable = true)
     private Topic topic;
 
     @Column
@@ -44,9 +45,7 @@ public class Collection{
     }
 
     public String markdownToHtml() {
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(this.description);
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.description);
     }
 }

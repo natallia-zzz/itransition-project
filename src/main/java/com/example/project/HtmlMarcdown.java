@@ -1,16 +1,15 @@
-package com.example.project.service;
+package com.example.project;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
-import org.springframework.stereotype.Service;
 
-@Service
-public class HtmlServiceImpl implements HtmlService {
-    @Override
-    public String markdownToHtml(String markdown) {
+public class HtmlMarcdown
+{
+    public HtmlMarcdown(){};
+    public String toHtml(String description) {
         Parser parser = Parser.builder().build();
-        Node document = parser.parse(markdown);
+        Node document = parser.parse(description);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(document);
     }
