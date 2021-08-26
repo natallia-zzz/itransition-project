@@ -16,6 +16,8 @@
     <properties>
 <!--        <java.version>16</java.version>-->
         <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <hibernate.version>5.4.32.Final</hibernate.version>
+        <elasticsearch.version>7.10.0</elasticsearch.version>
     </properties>
     <dependencies>
         <dependency>
@@ -125,11 +127,25 @@
             <artifactId>commonmark</artifactId>
             <version>0.17.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-search-orm</artifactId>-->
+<!--            <version>5.11.9.Final</version>-->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>5.8.2.Final</version>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-mapper-orm</artifactId>
+            <version>6.0.6.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-backend-lucene</artifactId>
+            <version>6.0.6.Final</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.data</groupId>-->
+<!--            <artifactId>spring-data-elasticsearch</artifactId>-->
+<!--            <version>4.2.4</version>-->
+<!--        </dependency>-->
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -142,7 +158,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -157,7 +172,15 @@
                     </excludes>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+            <!--            <plugin>-->
 <!--                <groupId>org.codehaus.mojo</groupId>-->
 <!--                <artifactId>exec-maven-plugin</artifactId>-->
 <!--                <version>1.6.0</version>-->

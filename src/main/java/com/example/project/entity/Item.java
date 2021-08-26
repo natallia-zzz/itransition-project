@@ -7,14 +7,19 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+import org.hibernate.search.engine.backend.types.TermVector;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.jboss.logging.annotations.Field;
+import org.hibernate.search.annotations.IndexEmbedded;
 
+@Entity
 @Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Field(termVector = TermVector.YES)
     @Column(nullable = false, length = 45)
     private String name;
 
@@ -27,6 +32,7 @@ public class Item {
     private Set<Tag> tags = new HashSet<>();
 
     @ManyToOne(optional = false)
+    @IndexedEmbedded
     @JoinColumn(name = "collection_id", nullable = false)
     private Collection collection;
 
