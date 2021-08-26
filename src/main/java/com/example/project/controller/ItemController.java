@@ -1,15 +1,10 @@
 package com.example.project.controller;
 
-import com.example.project.entity.Collection;
-import com.example.project.entity.Comment;
-import com.example.project.entity.Item;
-import com.example.project.entity.User;
-import com.example.project.service.CollectionService;
-import com.example.project.service.CommentService;
-import com.example.project.service.CustomUserDetails;
-import com.example.project.service.ItemService;
+import com.example.project.entity.*;
+import com.example.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +23,9 @@ public class ItemController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    LikeService likeService;
 
 //    @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
 //    @GetMapping("/profile/{uid}/collections/{id}/items")
@@ -50,15 +48,53 @@ public class ItemController {
 
     @GetMapping("/profile/{uid}/collections/{id}/view_item/{item_id}")
     public String viewItem(Model model,@PathVariable("item_id") int itemId)
-    {   Item item=itemService.get(itemId);
+    {
+        Item item=itemService.get(itemId);
         Comment comment=new Comment();
         List<Comment> comments=commentService.commentList(itemId);
         model.addAttribute("item",item);
+        model.addAttribute("like",new Like());
+        List<Like> likes=likeService.likeList(itemId);
+        Integer size=likes.size();
+        model.addAttribute("size",size);
         model.addAttribute("comment",comment);
         model.addAttribute("comments",comments);
+        model.addAttribute("liked",checkLike(itemId));
         return "view_item";
     }
 
+    public boolean checkLike( int itemId)
+    {
+        if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken))
+        {
+            CustomUserDetails myUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            if(likeService.likeListByItemAndUser(itemId,myUserDetails.getUser().getId())==null) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping (value="/profile/{uid}/collections/{id}/view_item/{item_id}/add_like", method={RequestMethod.POST,RequestMethod.GET})
+    public String addLike(@PathVariable("item_id") int itemId,Like like) {
+        CustomUserDetails myUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        Like likeExisting=likeService.likeListByItemAndUser(itemId,myUserDetails.getUser().getId());
+        if(likeExisting==null)
+        {
+            like.setUser(myUserDetails.getUser());
+            like.setItem(itemService.get(itemId));
+            likeService.save(like);
+        }
+        else {
+            likeService.delete(like);
+            likeService.delete(likeExisting);
+        }
+        return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping (value="/profile/{uid}/collections/{id}/view_item/{item_id}/add_comment", method={RequestMethod.POST,RequestMethod.GET})
     public String addComment(@PathVariable("item_id") int itemId,Comment comment)
     {

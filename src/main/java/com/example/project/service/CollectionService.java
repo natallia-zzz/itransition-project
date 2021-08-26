@@ -24,6 +24,7 @@ public class CollectionService {
     public void update(Collection collection){collectionRepo.save(collection);}
     public List<Collection> getTop5(){
         List<Collection> collections=this.listAll();
+        int size=collections.size();
         collections.sort(new Comparator<Collection>() {
             @Override
             public int compare(Collection c1, Collection c2) {
@@ -33,7 +34,7 @@ public class CollectionService {
             }
         });
 
-        if(collections.size()<5) return collections.subList(0,collections.size());
+        if(size<5) return collections.subList(0,size);
         else return collections.subList(0,5);
     }
 }
