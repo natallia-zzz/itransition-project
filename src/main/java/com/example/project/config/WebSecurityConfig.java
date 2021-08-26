@@ -44,6 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomOAuth2UserService oAuth2UserService;
 
     @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
@@ -74,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+
     @Bean
     SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
@@ -100,6 +104,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .maximumSessions(1)
                 .sessionRegistry(sessionRegistry())
                 .expiredUrl("/login");
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }
 

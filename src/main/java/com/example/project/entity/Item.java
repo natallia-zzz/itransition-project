@@ -7,10 +7,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.search.engine.backend.types.TermVector;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.jboss.logging.annotations.Field;
-import org.hibernate.search.annotations.IndexEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
 @Entity
 @Getter
@@ -22,7 +21,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Field(termVector = TermVector.YES)
+    @FullTextField
     @Column(nullable = false, length = 45)
     private String name;
 
@@ -41,35 +40,35 @@ public class Item {
 
     public Item(){};
 
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Set<Tag> getTags() {
-//        return tags;
-//    }
-//
-//    public void setTags(Set<Tag> tags) {
-//        this.tags = tags;
-//    }
-//
-//    public Collection getCollection() {
-//        return collection;
-//    }
-//
-//    public void setCollection(Collection collection) {
-//        this.collection = collection;
-//    }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Collection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Collection collection) {
+        this.collection = collection;
+    }
 }
