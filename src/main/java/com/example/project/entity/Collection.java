@@ -7,11 +7,12 @@ import lombok.Setter;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.springframework.stereotype.Indexed;
-import org.hibernate.search.annotations.*;
+
 
 import org.hibernate.search.engine.backend.types.TermVector;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.jboss.logging.annotations.Field;
 
@@ -46,7 +47,6 @@ public class Collection{
     private Topic topic;
 
     @Column
-    @Field(termVector = TermVector.YES)
     private String description;
 
 
