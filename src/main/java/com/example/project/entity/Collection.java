@@ -2,14 +2,16 @@ package com.example.project.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Indexed;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Indexed
 @Table(name = "collections")
 public class Collection{
     @Id
@@ -26,7 +28,7 @@ public class Collection{
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
-    @Column
+    @Column()
     private String description;
 
 

@@ -6,6 +6,22 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#Tag_Name").autocomplete({
+                source: "tagsAutocomplete",
+                minLength: 3,
+                select: function(event, ui) {
+                    this.value = ui.item.label;
+                    $("#Tag_ID").val(ui.item.value);
+                    return false;
+                }
+            });
+
+        });
+    </script>
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>

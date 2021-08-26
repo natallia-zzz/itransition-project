@@ -7,6 +7,7 @@ import com.example.project.repository.ItemRepository;
 import com.example.project.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,9 @@ public class ItemService {
 
     public Tag getLastTag(){
         return tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
+    }
+
+    public List<Tag> fetchTags(String searchTerm) throws Exception {
+        return tagRepository.findByNameStartingWith(searchTerm);
     }
 }

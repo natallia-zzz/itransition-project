@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -51,7 +48,7 @@ public class ItemController {
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid, Item item,
                           @RequestParam String otherTag){
         if(otherTag!=""){
-            List<String> tagStringList = Arrays.asList(otherTag.split(","));
+            List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
             Tag temporaryTag;
             Set<Tag> tags = item.getTags();
             for (String element : tagStringList) {
@@ -87,7 +84,7 @@ public class ItemController {
     public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId,
                            Item item,@RequestParam String otherTag){
         if(otherTag!=""){
-            List<String> tagStringList = Arrays.asList(otherTag.split(","));
+            List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
             Tag temporaryTag;
             Set<Tag> tags = item.getTags();
             for (String element : tagStringList) {
@@ -117,6 +114,23 @@ public class ItemController {
     public String deleteItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId){
         itemService.delete(itemId);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/items";
+    }
+
+    @RequestMapping(value="/tagsAutocomplete")
+    @ResponseBody
+    public List<Tag> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+        List<Tag> suggestions = new ArrayList<Tag>();
+        try {
+            // only update when term is three characters.
+            if (term.length() == 3) {
+                suggestions = itemService.fetchTags(term);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+
     }
 
 }
