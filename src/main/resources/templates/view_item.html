@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>View item</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<h1><span th:text="${item.name}"></span></h1>
+<div class="container" >
+    <label>Likes: </label>
+    <span th:text="${size}"></span>
+    <div class="container" sec:authorize="isAuthenticated()">
+        <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id}+'/add_like' }" th:object="${like}">
+            <button type="submit" class="btn btn-default">
+                <svg th:if="${liked}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+                <svg th:unless="${liked}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                </svg>
+                Like
+            </button>
+    <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id}+'/add_comment' }" th:object="${comment}">
+        <div class="col-8">
+            <textarea class="form-control" id="markdown" name="markdown" rows="10" th:field="*{content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+    </div>
+
+    <h6>Comments</h6>
+    <table>
+        <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+        <th:block th:each="comment : ${comments}">
+            <tr>
+                <td>
+                    <div class="container">
+                        <span th:text="${comment.user.getFullName()}"></span>
+                        <div th:utext="${comment.markdownToHtml()}"></div>
+                    </div>
+                    <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+</html>

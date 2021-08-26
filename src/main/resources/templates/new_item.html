@@ -29,19 +29,20 @@
     <div>
         <h1>New item </h1>
     </div>
-    <form th:action="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/add_item'}" th:object="${item}"
+    <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/add_item'}"
           method="post" style="max-width: 600px; margin: 0 auto;">
         <div class="m-3">
             <div class="form-group row">
-                <label class="col-4 col-form-label">name: </label>
+                <label class="col-4 col-form-label" >name: </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{name}" class="form-control" required />
+                    <input type="text" th:field="*{item.name}" class="form-control" required />
+                    <input type="hidden" th:value="${item.id}" th:name="item_id">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-4 col-form-label">Tags: </label>
                 <div class="col-8">
-                    <input type="text" th:value="${other}" class="form-control" name="otherTag"/>
+                    <input type="text" th:value="${other}" class="form-control" th:name="otherTag"/>
                 </div>
             </div>
             <div>

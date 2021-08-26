@@ -11,7 +11,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ItemService {
@@ -33,26 +35,21 @@ public class ItemService {
 
     public void delete(int id){ itemRepository.deleteById(id);}
 
-    public List<Tag> listTags(){ return tagRepository.findAll();}
+    public List<Item> findLatest() {
+        List<Item> items =this.listAll();
+        int size=items.size();
+        if(size<5) return items;
+        else return items.subList(size-Math.min(size,5), size);}
 
-    public void processTagRequest(List<String> inputStringList){
-
-    }
-
-    public Tag saveTag(String name){
-        if(tagRepository.findByName(name)==null) {
-            Tag tag = new Tag(name);
-            tagRepository.save(tag);
-            return getLastTag();
+    public List<Item> listItemsByTagId(int id){
+        List<Item> items=new ArrayList<>();
+        List<Item> allItems=itemRepository.findAll();
+        for(Item item:allItems)
+        {
+            Set<Tag> tags = item.getTags();
+            if(item.getTags().contains(tagRepository.getById(id))) items.add(item);
         }
-        return tagRepository.findByName(name);
+        return items;
     }
 
-    public Tag getLastTag(){
-        return tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
-    }
-
-    public List<Tag> fetchTags(String searchTerm) throws Exception {
-        return tagRepository.findByNameStartingWith(searchTerm);
-    }
 }
