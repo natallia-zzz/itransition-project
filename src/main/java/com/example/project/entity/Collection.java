@@ -2,8 +2,10 @@ package com.example.project.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Indexed;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.engine.backend.types.TermVector;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.jboss.logging.annotations.Field;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -25,10 +27,11 @@ public class Collection{
     private Set<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @IndexedEmbedded
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
-    @Column()
+    @Field(termVector = TermVector.YES)
     private String description;
 
 
