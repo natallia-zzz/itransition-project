@@ -14,7 +14,7 @@
     <name>project</name>
     <description>project</description>
     <properties>
-        <java.runtime.version>16</java.runtime.version>
+<!--        <java.runtime.version>16</java.runtime.version>-->
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <hibernate.version>5.4.32.Final</hibernate.version>
         <elasticsearch.version>7.10.0</elasticsearch.version>
@@ -176,8 +176,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
