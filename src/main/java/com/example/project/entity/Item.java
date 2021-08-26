@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.hibernate.search.engine.backend.types.TermVector;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.jboss.logging.annotations.Field;
 
 @Entity
 @Table(name = "items")
