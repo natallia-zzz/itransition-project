@@ -54,6 +54,7 @@ public class AppController {
     @GetMapping("")
     public String viewHomePage(Model model) {
         this.addUsers(model);
+        model.addAttribute("keyword", "");
         return "index";
     }
 

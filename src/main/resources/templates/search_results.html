@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Collections</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div class="container text-center">
+    <div>
+        <h1>List of items</h1>
+    </div>
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Tags</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item: ${items}">
+                <td th:text="${item.id}">Item ID</td>
+                <td th:text="${item.name}"></td>
+                <td>
+                    <ul>
+                        <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
+                    </ul>
+                </td>
+                <td th:border="none" th:background="transparent"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="edit"></a></td>
+                <td th:border="none" th:background="transparent"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/delete_item/' + ${item.id} }" th:text="delete"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

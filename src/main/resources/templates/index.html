@@ -11,6 +11,12 @@
 <body>
 
 <div th:replace="~{header :: header}"></div>
+<div>
+    <form th:action="@{/searchResults}">
+        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+        <input type="submit" value="Search" />
+    </form>
+</div>
 <div class="row">
 <div class="col-4">
     <h6>Users</h6>
