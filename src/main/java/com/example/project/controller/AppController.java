@@ -59,12 +59,12 @@ public class AppController {
 
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private TagService tagService;
 
     @GetMapping("")
     public String viewHomePage(Model model) {
-        this.addUsers(model);
-        this.addItems(model);
-        this.addCollections(model);
+        this.showAll(model);
         return "index";
     }
 
@@ -74,6 +74,14 @@ public class AppController {
         model.addAttribute("user", new User());
 
         return "signup_form";
+    }
+    @GetMapping("/tags/{tag_id}")
+    public String showTagItems(@PathVariable("tag_id") int tagId,Model model)
+    {
+        List<Item> searchItems=itemService.listItemsByTagId(tagId);
+        model.addAttribute("searchItems", searchItems);
+        this.showAll(model);
+        return "index";
     }
 
     @PostMapping("/process_register")
@@ -109,6 +117,11 @@ public class AppController {
         List<User> listUsers = service.listAll();
         model.addAttribute("listUsers", listUsers);
     }
+    public void addTags(Model model)
+    {
+        List<Tag> tags = tagService.tagList();
+        model.addAttribute("tags", tags);
+    }
 
     public void addItems(Model model)
     {
@@ -120,12 +133,17 @@ public class AppController {
         List<Collection> cols=collectionService.getTop5();
         model.addAttribute("cols", cols);
     }
-    @GetMapping("/profile/{id}")
-    public String showProfile(@PathVariable("id") Long id, Model model) {
-        User user = service.get(id);
+    public void showAll(Model model)
+    {
         this.addUsers(model);
         this.addItems(model);
         this.addCollections(model);
+        this.addTags(model);
+    }
+    @GetMapping("/profile/{id}")
+    public String showProfile(@PathVariable("id") Long id, Model model) {
+        User user = service.get(id);
+        this.showAll(model);
         List<Collection> collections = service.listCollections(user);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
@@ -137,9 +155,7 @@ public class AppController {
         Long id=userDetails.getId();
         User user = service.get(id);
         List<Collection> collections = service.listCollections(user);
-        this.addUsers(model);
-        this.addItems(model);
-        this.addCollections(model);
+        this.showAll(model);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
         return "index";
@@ -149,7 +165,6 @@ public class AppController {
     @PostMapping("/users/save")
     public String saveUser(User user) {
         service.save(user);
-
         return "redirect:/users";
     }
 

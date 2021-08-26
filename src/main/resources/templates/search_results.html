@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-1">
+    <h6>Search results</h6>
+    <table>
+        <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+        <th:block th:each="item : ${searchItems}">
+            <tr>
+                <td>
+                    <a th:href="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
+                    <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+</html>

@@ -1,7 +1,14 @@
 package com.example.project.controller;
 
+
 import com.example.project.entity.*;
 import com.example.project.service.*;
+import com.example.project.entity.Collection;
+import com.example.project.entity.Item;
+import com.example.project.entity.Role;
+import com.example.project.entity.Tag;
+import com.example.project.service.CollectionService;
+import com.example.project.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -10,7 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ItemController {
@@ -26,6 +33,8 @@ public class ItemController {
 
     @Autowired
     LikeService likeService;
+    @Autowired
+    TagService tagService;
 
 //    @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
 //    @GetMapping("/profile/{uid}/collections/{id}/items")
@@ -41,8 +50,13 @@ public class ItemController {
     @RequestMapping(value = "/profile/{uid}/collections/{id}/action", method = RequestMethod.GET, params = "add")
     public String newItem(@PathVariable("id") int id,@PathVariable("uid") Long uid, Model model){
         Collection collection = collectionService.get(id);
-        model.addAttribute("item", new Item());
-        model.addAttribute("collection", collection);
+        Item item=new Item();
+        item.setCollection(collectionService.get(id));
+        item.setName("");
+        itemService.update(item);
+        model.addAttribute("item", item);
+        System.out.println(item.getId());
+        model.addAttribute("other", "");
         return "new_item";
     }
 
@@ -108,9 +122,21 @@ public class ItemController {
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/add_item")
-    public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid, Item item){
-        Collection collection = collectionService.get(id);
-        item.setCollection(collection);
+    public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,
+                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId,@RequestParam("name") String name){
+        Item item=itemService.get(itemId);
+        System.out.println(itemId);
+        if(otherTag!=""){
+            List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
+            Tag temporaryTag;
+            Set<Tag> tags = new HashSet<>();
+            for (String element : tagStringList) {
+                temporaryTag = tagService.saveTag(element);
+                tags.add(temporaryTag);
+            }
+            item.setTags(tags);
+        }
+        item.setName(name);
         itemService.update(item);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
@@ -120,14 +146,31 @@ public class ItemController {
     public String editItem(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid,Model model){
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
+        Set<Tag> tags = item.getTags();
+        List<String> stringList = new ArrayList<>();
+        for (Tag element : tags) {
+            stringList.add(element.getName());
+        }
         model.addAttribute("collection", collection);
         model.addAttribute("item", item);
+        model.addAttribute("other", String.join(",", stringList));
         return "edit_item";
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/save_item/{item_id}")
-    public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId,Item item){
+    public String saveItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId,
+                           Item item,@RequestParam String otherTag){
+        if(otherTag!=""){
+            List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
+            Tag temporaryTag;
+            Set<Tag> tags = item.getTags();
+            for (String element : tagStringList) {
+                temporaryTag = tagService.saveTag(element);
+                tags.add(temporaryTag);
+            }
+            item.setTags(tags);
+        }
         item.setId(itemId);
         item.setCollection(collectionService.get(id));
         itemService.update(item);
@@ -158,6 +201,23 @@ public class ItemController {
             for (Integer itemId : ids)
                 itemService.delete(itemId);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
+    }
+
+    @RequestMapping(value="/tagsAutocomplete")
+    @ResponseBody
+    public List<Tag> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+        List<Tag> suggestions = new ArrayList<Tag>();
+        try {
+            // only update when term is three characters.
+            if (term.length() == 3) {
+                suggestions = tagService.fetchTags(term);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+
     }
 
 }

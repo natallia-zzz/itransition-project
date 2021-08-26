@@ -25,7 +25,8 @@
                     </th:block>
                 </table>
 </div>
-    <div class="col-8" th:replace="profile.html :: div.col-8"> </div>
+    <div class="col-7" th:replace="profile.html :: div.col-7"> </div>
+    <div class="col-1" th:replace="search_results.html :: div.col-1"> </div>
     <div class="col-2">
         <h6>Latest added items</h6>
         <table>
@@ -54,7 +55,25 @@
                 </tr>
             </th:block>
         </table>
+        <hr>
+        <h6>Tags</h6>
+        <table>
+            <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+            <th:block th:each="tag : ${tags}">
+                <tr>
+                    <td>
+                        <form th:action="@{'/tags/'+${tag.id}}">
+                            <button type="submit" th:text="${tag.name}"></button>
+                        </form>
+<!--                        <a  th:href="@{'/profile/'+${col.owner.id}+'/collections/' + ${col.id}+'/view'}",  th:text="${tag.name}">-->
+<!--                        </a>-->
+                        <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                    </td>
+                </tr>
+            </th:block>
+        </table>
     </div>
+
 </div>
 <!--<h3><a th:href="@{/collections}">Collections</a></h3>-->
 </body>

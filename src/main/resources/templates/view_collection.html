@@ -62,7 +62,7 @@
 <br>
         <div class="col">
             <button type="submit" name="save" class="btn btn-primary">Save</button>
-            <button type="submit" name="Delete" class="btn btn-primary">Delete</button>
+            <button type="submit" name="delete" class="btn btn-primary">Delete</button>
         </div>
     </form>
     </div>
@@ -143,12 +143,13 @@
                         <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
                     </td>
 
-                    <td th:border="none" th:background="transparent" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="edit"></a></td>
+
                     <td>
                         <ul>
                             <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
                         </ul>
                     </td>
+                    <td th:border="none" th:background="transparent" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}"><a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/edit_item/' + ${item.id} }" th:text="edit"></a></td>
 
                 </tr>
                 </tbody>
