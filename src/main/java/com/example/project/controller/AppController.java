@@ -180,7 +180,10 @@ public class AppController {
         if(ids != null){
             for(Long id : ids) {
                 this.sessionExpire(request,id);
-                service.delete(id);}
+                for(Collection col:collectionService.collectionList(id))
+                    collectionService.delete(col.getId());
+                service.delete(id);
+            }
         }
         return "redirect:/users";
     }
@@ -194,8 +197,10 @@ public class AppController {
     @RequestMapping(value="/users/topics/action", method = {RequestMethod.POST,RequestMethod.GET}, params = "delete")
     public String deleteItems(@RequestParam(value="ids", required = false) List <Integer> ids){
         if (ids != null)
-            for (Integer itemId : ids)
+            for (Integer itemId : ids) {
+                for (Collection col : collectionService.collectionListTopic(itemId)) col.setTopic(null);
                 topicService.delete(itemId);
+            }
         return "redirect:/users";
     }
 

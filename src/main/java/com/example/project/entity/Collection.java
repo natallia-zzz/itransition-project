@@ -35,14 +35,12 @@ public class Collection{
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
     private Set<Item> items;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade  = {CascadeType.MERGE,CascadeType.DETACH})
     @IndexedEmbedded
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
-
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true,cascade = CascadeType.DETACH)
     @JoinColumn(name = "topic_id",nullable = true)
     private Topic topic;
 

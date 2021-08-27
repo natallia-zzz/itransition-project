@@ -13,8 +13,8 @@ public class Like {
 
     public Like(){}
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = {CascadeType.MERGE,CascadeType.DETACH})
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     public User getUser() {
@@ -33,7 +33,7 @@ public class Like {
         this.item = item;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade  = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 }

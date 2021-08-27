@@ -3,7 +3,9 @@ package com.example.project.service;
 import com.example.project.entity.Collection;
 import com.example.project.entity.Item;
 import com.example.project.entity.Tag;
+import com.example.project.repository.CommentRepository;
 import com.example.project.repository.ItemRepository;
+import com.example.project.repository.LikeRepository;
 import com.example.project.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,11 @@ public class ItemService {
 
     @Autowired
     TagRepository tagRepository;
+    @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     public List<Item> listAll() {
         return itemRepository.findAll();
@@ -33,7 +40,9 @@ public class ItemService {
 
     public Item get(int id){ return itemRepository.getById(id);}
 
-    public void delete(int id){ itemRepository.deleteById(id);}
+    public void delete(int id){
+
+        itemRepository.deleteById(id);}
 
     public List<Item> findLatest() {
         List<Item> items =this.listAll();

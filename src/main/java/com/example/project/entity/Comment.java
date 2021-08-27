@@ -3,6 +3,7 @@ package com.example.project.entity;
 import com.example.project.HtmlMarcdown;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comments")
@@ -27,8 +28,8 @@ public class Comment {
         this.content = content;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = {CascadeType.MERGE,CascadeType.DETACH})
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     public User getUser() {
@@ -47,9 +48,20 @@ public class Comment {
         this.item = item;
     }
 
-    @ManyToOne(optional = false)
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @ManyToOne(optional = false,cascade  = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
+
+    @Column
+    private java.sql.Timestamp creationDate;
 
     public String markdownToHtml() {
         HtmlMarcdown htmlMarcdown =new HtmlMarcdown();

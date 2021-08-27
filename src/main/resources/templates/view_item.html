@@ -25,6 +25,7 @@
                 </svg>
                 Like
             </button>
+        </form>
     <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id}+'/add_comment' }" th:object="${comment}">
         <div class="col-8">
             <textarea class="form-control" id="markdown" name="markdown" rows="10" th:field="*{content}"></textarea>

@@ -116,6 +116,7 @@ public class ItemController {
                 getAuthentication().getPrincipal();
         comment.setUser(myUserDetails.getUser());
         comment.setItem(itemService.get(itemId));
+        //comment.setCreationDate();
         commentService.save(comment);
         return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
     }
@@ -190,6 +191,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
     public String deleteItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId){
+
         itemService.delete(itemId);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
@@ -199,7 +201,13 @@ public class ItemController {
     public String deleteItems(@RequestParam(value="ids", required = false) List <Integer> ids, @PathVariable("id") int id, @PathVariable("uid") Long uid){
         if (ids != null)
             for (Integer itemId : ids)
+            {
+                Set<Tag> tags=itemService.get(itemId).getTags();
+                for(Tag tag:tags)
+                    if (itemService.listItemsByTagId(tag.getId()).size()==1)
+                        tagService.deleteTag(tag.getId());
                 itemService.delete(itemId);
+            }
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
 
