@@ -21,7 +21,7 @@ public class SearchController {
     @RequestMapping("/searchResults")
     public String viewHomePage(Model model, @Param("keyword") String keyword) {
         List<Item> listItems = itemService.searchItems(keyword);
-        model.addAttribute("listProducts", listItems);
+        model.addAttribute("listItems", listItems);
         model.addAttribute("keyword", keyword);
         return "search_results";
     }
