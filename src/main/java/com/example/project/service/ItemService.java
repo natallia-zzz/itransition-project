@@ -3,7 +3,9 @@ package com.example.project.service;
 import com.example.project.entity.Collection;
 import com.example.project.entity.Item;
 import com.example.project.entity.Tag;
+import com.example.project.repository.CommentRepository;
 import com.example.project.repository.ItemRepository;
+import com.example.project.repository.LikeRepository;
 import com.example.project.repository.TagRepository;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
@@ -23,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ItemService {
@@ -31,6 +36,11 @@ public class ItemService {
 
     @Autowired
     TagRepository tagRepository;
+    @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
@@ -45,25 +55,25 @@ public class ItemService {
 
     public Item get(int id){ return itemRepository.getById(id);}
 
-    public void delete(int id){ itemRepository.deleteById(id);}
+    public void delete(int id){
 
-    public List<Tag> listTags(){ return tagRepository.findAll();}
+        itemRepository.deleteById(id);}
 
-    public void processTagRequest(List<String> inputStringList){
+    public List<Item> findLatest() {
+        List<Item> items =this.listAll();
+        int size=items.size();
+        if(size<5) return items;
+        else return items.subList(size-Math.min(size,5), size);}
 
-    }
-
-    public Tag saveTag(String name){
-        if(tagRepository.findByName(name)==null) {
-            Tag tag = new Tag(name);
-            tagRepository.save(tag);
-            return getLastTag();
+    public List<Item> listItemsByTagId(int id){
+        List<Item> items=new ArrayList<>();
+        List<Item> allItems=itemRepository.findAll();
+        for(Item item:allItems)
+        {
+            Set<Tag> tags = item.getTags();
+            if(item.getTags().contains(tagRepository.getById(id))) items.add(item);
         }
-        return tagRepository.findByName(name);
-    }
-
-    public Tag getLastTag(){
-        return tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
+        return items;
     }
 
     public List<Tag> fetchTags(String searchTerm) throws Exception {
@@ -87,12 +97,16 @@ public class ItemService {
         return listAll();
     }
 
-    public List<Tag> getFilterTags(List<Item> items){
+    public List<String> getFilterTagNames(List<Item> items){
         Set<Tag> filterTags = new HashSet<>();
         for(Item item:items){
             Set<Tag> tags = item.getTags();
             filterTags.addAll(tags);
         }
-        return new ArrayList<>(filterTags);
+        List<String> filterTagNames = new ArrayList<>();
+        for(Tag tag:filterTags){
+            filterTagNames.add(tag.getName());
+        }
+        return filterTagNames;
     }
 }

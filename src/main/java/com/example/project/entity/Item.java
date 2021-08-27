@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -12,8 +14,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmb
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
 @Entity
-@Getter
-@Setter
 @Indexed
 @Table(name = "items")
 public class Item {
@@ -25,7 +25,7 @@ public class Item {
     @Column(nullable = false, length = 45)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade  = CascadeType.ALL)
     @JoinTable(
             name = "item_tags",
             joinColumns = @JoinColumn(name = "item_id"),
@@ -37,6 +37,12 @@ public class Item {
     @IndexedEmbedded
     @JoinColumn(name = "collection_id", nullable = false)
     private Collection collection;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
 
     public Item(){};
 
@@ -62,6 +68,14 @@ public class Item {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Set<String> getTagNames(){
+        Set<String> tagNames = new HashSet<>();
+        for(Tag tag:tags){
+            tagNames.add(tag.getName());
+        }
+        return tagNames;
     }
 
     public Collection getCollection() {

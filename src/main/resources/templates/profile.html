@@ -9,28 +9,31 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="col-8">
+<div class="col-7">
 <div class="container" th:if="${user != null}"><span th:text="${user.getFullName()}"></span>
-<div class="container"></div>
+
     <div class="container" sec:authorize="isAuthenticated()"><a th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:href="@{'/profile/'+${user.id}+'/collections/new'}">add</a></div>
     <h6>Collections</h6>
-    <table>
+    <section class="row">
         <th:block th:each="col : ${collections}">
-            <tr>
-                <td>
-                    <div sec:authorize="isAuthenticated()">
-                        <a  th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:href="@{'/profile/'+${col.owner.id}+'/collections/' + ${col.id}+'/view'}",  th:text="${col.name}">
-                            Name
-                        </a>
-                        <span th:unless="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:text="${col.name}"></span>
+            <section class="col-lg-3 col-md-6 py-3">
+                    <div class="card border-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">
+                           <span th:text="${col.topic}!=null ? ${col.topic.name}: ' '"></span>
+
+                        </div>
+                        <div class="card-body text-dark">
+                            <a class="card-title" th:href="@{'/profile/'+${col.owner.id}+'/collections/' + ${col.id}+'/view'}",  th:text="${col.name}">
+                                Name
+                            </a>
+<!--                            <h5 class="card-title">Dark card title</h5>-->
+                            <div class="card-text" th:utext="${col.markdownToHtml()}"></div>
+                        </div>
                     </div>
-                    <div sec:authorize="!isAuthenticated()">
-                        <span th:text="${col.name}"></span>
-                    </div>
-                </td>
-            </tr>
+            </section>
         </th:block>
-    </table>
+    </section>
+    </div>
 </div>
 </div>
 </body>

@@ -2,6 +2,7 @@ package com.example.project.controller;
 
 import com.example.project.entity.Item;
 import com.example.project.entity.Tag;
+import com.example.project.entity.Filter;
 import com.example.project.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -25,16 +26,15 @@ public class SearchController {
     ItemService itemService;
 
     @RequestMapping("/searchResults")
-    public String viewSearchResults(Model model, @RequestParam(name = "keyword") String keyword, @RequestParam(name = "filter", required = false) List<Tag> filter) {
-        System.out.println(filter);
-        List<Item> listItems = itemService.searchItems(keyword);
-        List<Tag> filterTags = itemService.getFilterTags(listItems);
+    public String viewSearchResults(Model model, Filter filter) {
+        List<Item> listItems = itemService.searchItems(filter.getSearchString());
+        List<String> filterTags = itemService.getFilterTagNames(listItems);
         model.addAttribute("filterTags", filterTags);
         List<Item> filteredItemList = new ArrayList<>();
-        if(filter!= null){
+        if(!filter.getFilterList().isEmpty()){
             for(Item item:listItems){
-                Set<Tag> tags = new HashSet<>(filter);
-                tags.retainAll(item.getTags());
+                Set<String> tags = new HashSet<>(filter.getFilterList());
+                tags.retainAll(item.getTagNames());
                 if(!tags.isEmpty()){
                     filteredItemList.add(item);
                 }
@@ -43,7 +43,6 @@ public class SearchController {
         }
         else{model.addAttribute("listItems", listItems);}
         model.addAttribute("filter", filter);
-        model.addAttribute("keyword", keyword);
         return "search_results";
     }
 }

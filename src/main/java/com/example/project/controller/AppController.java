@@ -51,12 +51,22 @@ public class AppController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private TopicService topicService;
+
+    @Autowired
+    private CollectionService collectionService;
+
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private TagService tagService;
+
     @GetMapping("")
     public String viewHomePage(Model model) {
         this.addUsers(model);
-        model.addAttribute("keyword", "");
-        List<Tag> filter = new ArrayList<>();
-        model.addAttribute("filter", filter);
+        model.addAttribute("filter", new Filter());
+        this.showAll(model);
         return "index";
     }
 
@@ -66,6 +76,14 @@ public class AppController {
         model.addAttribute("user", new User());
 
         return "signup_form";
+    }
+    @GetMapping("/tags/{tag_id}")
+    public String showTagItems(@PathVariable("tag_id") int tagId,Model model)
+    {
+        List<Item> searchItems=itemService.listItemsByTagId(tagId);
+        model.addAttribute("searchItems", searchItems);
+        this.showAll(model);
+        return "index";
     }
 
     @PostMapping("/process_register")
@@ -80,6 +98,8 @@ public class AppController {
     @GetMapping("/users")
     public String listUsers(Model model) {
         List<User> listUsers = service.listAll();
+        List<Topic> listTopics=topicService.listAll();
+        model.addAttribute("listTopics",listTopics);
         model.addAttribute("listUsers", listUsers);
 
         return "users";
@@ -99,10 +119,33 @@ public class AppController {
         List<User> listUsers = service.listAll();
         model.addAttribute("listUsers", listUsers);
     }
+    public void addTags(Model model)
+    {
+        List<Tag> tags = tagService.tagList();
+        model.addAttribute("tags", tags);
+    }
+
+    public void addItems(Model model)
+    {
+        List<Item> items = itemService.findLatest();
+        model.addAttribute("items", items);
+    }
+    public void addCollections(Model model)
+    {
+        List<Collection> cols=collectionService.getTop5();
+        model.addAttribute("cols", cols);
+    }
+    public void showAll(Model model)
+    {
+        this.addUsers(model);
+        this.addItems(model);
+        this.addCollections(model);
+        this.addTags(model);
+    }
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable("id") Long id, Model model) {
         User user = service.get(id);
-        this.addUsers(model);
+        this.showAll(model);
         List<Collection> collections = service.listCollections(user);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
@@ -114,7 +157,7 @@ public class AppController {
         Long id=userDetails.getId();
         User user = service.get(id);
         List<Collection> collections = service.listCollections(user);
-        this.addUsers(model);
+        this.showAll(model);
         model.addAttribute("collections", collections);
         model.addAttribute("user", user);
         return "index";
@@ -139,10 +182,36 @@ public class AppController {
         if(ids != null){
             for(Long id : ids) {
                 this.sessionExpire(request,id);
-                service.delete(id);}
+                for(Collection col:collectionService.collectionList(id))
+                    collectionService.delete(col.getId());
+                service.delete(id);
+            }
         }
         return "redirect:/users";
     }
+
+    @RequestMapping(value="/users/topics/action",method = {RequestMethod.GET,RequestMethod.POST}, params = "add")
+    public String addTopic(Model model)
+    {
+        model.addAttribute("topic",new Topic());
+        return "new_topic";
+    }
+    @RequestMapping(value="/users/topics/action", method = {RequestMethod.POST,RequestMethod.GET}, params = "delete")
+    public String deleteItems(@RequestParam(value="ids", required = false) List <Integer> ids){
+        if (ids != null)
+            for (Integer itemId : ids) {
+                for (Collection col : collectionService.collectionListTopic(itemId)) col.setTopic(null);
+                topicService.delete(itemId);
+            }
+        return "redirect:/users";
+    }
+
+    @PostMapping("/users/topics/add_topic")
+    public String addItem(Topic topic){
+        topicService.update(topic);
+        return "redirect:/users";
+    }
+
     @RequestMapping(value = "/users/select", method = RequestMethod.POST, params = "toAdmin")
     public String admin(@RequestParam(value="ids") List<Long> ids, HttpServletRequest request)
     {

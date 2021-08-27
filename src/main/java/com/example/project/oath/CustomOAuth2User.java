@@ -1,6 +1,7 @@
 package com.example.project.oath;
 
 import com.example.project.entity.User;
+import com.example.project.repository.UserRepository;
 import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User {
 
     private OAuth2User oAuth2User;
+
 
 
     public CustomOAuth2User(OAuth2User oAuth2User) {
@@ -32,7 +34,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return oAuth2User.getAttribute("name");
+        return oAuth2User.getAttribute("email");
     }
 
     public String getFullName()
@@ -44,4 +46,6 @@ public class CustomOAuth2User implements OAuth2User {
     {
         return oAuth2User.getAttribute("email");
     }
+
+
 }

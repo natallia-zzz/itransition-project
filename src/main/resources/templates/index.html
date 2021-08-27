@@ -12,14 +12,14 @@
 
 <div th:replace="~{header :: header}"></div>
 <div>
-    <form th:action="@{/searchResults}">
-        <input type="hidden" th:value = "${filter}"/>
-        <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+    <form th:action="@{/searchResults}" th:object="${filter}">
+        <input type="hidden" th:field = "*{filterList}"/>
+        <input type="text" name="keyword" id="keyword" size="50" th:field="*{searchString}" required />
         <input type="submit" value="Search" />
     </form>
 </div>
 <div class="row">
-<div class="col-4">
+<div class="container ml-3 col-2" >
     <h6>Users</h6>
                 <table>
                     <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
@@ -32,7 +32,55 @@
                     </th:block>
                 </table>
 </div>
-    <div class="col-8" th:replace="profile.html :: div.col-8"> </div>
+    <div class="col-7" th:replace="profile.html :: div.col-7"> </div>
+    <div class="col-1" th:replace="search_results.html :: div.col-1"> </div>
+    <div class="col-2">
+        <h6>Latest added items</h6>
+        <table>
+            <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+            <th:block th:each="item : ${items}">
+                <tr>
+                    <td>
+                        <a th:href="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
+<!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+        <hr>
+        <h6>Top 5 collections</h6>
+        <table>
+            <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+            <th:block th:each="col : ${cols}">
+                <tr>
+                    <td>
+                        <a  th:href="@{'/profile/'+${col.owner.id}+'/collections/' + ${col.id}+'/view'}",  th:text="${col.name}">
+                            Name
+                        </a>
+                        <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+        <hr>
+        <h6>Tags</h6>
+        <table>
+            <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
+            <th:block th:each="tag : ${tags}">
+                <tr>
+                    <td>
+                        <form th:action="@{'/tags/'+${tag.id}}">
+                            <button type="submit" th:text="${tag.name}"></button>
+                        </form>
+<!--                        <a  th:href="@{'/profile/'+${col.owner.id}+'/collections/' + ${col.id}+'/view'}",  th:text="${tag.name}">-->
+<!--                        </a>-->
+                        <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+
 </div>
 <!--<h3><a th:href="@{/collections}">Collections</a></h3>-->
 </body>

@@ -1,18 +1,24 @@
 package com.example.project.entity;
 
+import com.example.project.HtmlMarcdown;
 import lombok.Getter;
 import lombok.Setter;
+
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
+
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @Indexed
 @Table(name = "collections")
 public class Collection{
@@ -26,18 +32,28 @@ public class Collection{
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
     private Set<Item> items;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @IndexedEmbedded
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade  = {CascadeType.MERGE,CascadeType.DETACH})
     @JoinColumn(name = "user_id",nullable = false)
     private User owner;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true,cascade = CascadeType.DETACH)
+    @JoinColumn(name = "topic_id",nullable = true)
+    private Topic topic;
+
     @FullTextField
+    @Column
     private String description;
 
 
     public Collection(){}
     public Collection(String name){
         this.name = name;
+    }
+
+
+    public String markdownToHtml() {
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.description);
     }
 
     public Integer getId() {
@@ -68,6 +84,14 @@ public class Collection{
         return owner;
     }
 
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     public void setOwner(User owner) {
         this.owner = owner;
     }
@@ -79,4 +103,5 @@ public class Collection{
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
