@@ -55,6 +55,8 @@ public class AppController {
     public String viewHomePage(Model model) {
         this.addUsers(model);
         model.addAttribute("keyword", "");
+        List<Tag> filter = new ArrayList<>();
+        model.addAttribute("filter", filter);
         return "index";
     }
 

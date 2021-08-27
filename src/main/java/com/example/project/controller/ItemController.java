@@ -118,7 +118,7 @@ public class ItemController {
 
     @RequestMapping(value="/tagsAutocomplete")
     @ResponseBody
-    public List<Tag> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+    public List<Tag> tagAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
         List<Tag> suggestions = new ArrayList<Tag>();
         try {
             // only update when term is three characters.

@@ -18,7 +18,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 public class ItemService {
@@ -80,6 +84,15 @@ public class ItemService {
             List<Item> results = result.hits();
             return results;
         }
-        return listAll().subList(0,10);
+        return listAll();
+    }
+
+    public List<Tag> getFilterTags(List<Item> items){
+        Set<Tag> filterTags = new HashSet<>();
+        for(Item item:items){
+            Set<Tag> tags = item.getTags();
+            filterTags.addAll(tags);
+        }
+        return new ArrayList<>(filterTags);
     }
 }
