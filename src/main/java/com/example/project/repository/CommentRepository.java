@@ -12,4 +12,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("SELECT r FROM Comment r WHERE r.item.id = ?1")
     public List<Comment> findByItemId(Integer id);
+
 }

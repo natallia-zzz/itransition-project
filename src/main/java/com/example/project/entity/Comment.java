@@ -60,6 +60,14 @@ public class Comment {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Column
     private java.sql.Timestamp creationDate;
 
