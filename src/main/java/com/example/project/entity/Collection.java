@@ -4,6 +4,7 @@ import com.example.project.HtmlMarcdown;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.With;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
@@ -43,6 +44,17 @@ public class Collection{
     @FullTextField
     @Column
     private String description;
+
+    @Column
+    private String textfield1;
+
+    @Column
+    private String textfield2;
+
+    @Column
+    private String textfield3;
+
+    @Column
 
 
     public Collection(){}
@@ -104,4 +116,15 @@ public class Collection{
         this.description = description;
     }
 
+    public String getTextfield1() {
+        return textfield1;
+    }
+
+    public void setTextfield1(String textfield1) {
+        this.textfield1 = textfield1;
+    }
+
+    public boolean checkTextfield1(){
+        return textfield1 != null && !textfield1.isEmpty();
+    }
 }

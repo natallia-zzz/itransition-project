@@ -11,13 +11,6 @@
 <body>
 
 <div th:replace="~{header :: header}"></div>
-<div>
-    <form th:action="@{/searchResults}" th:object="${filter}">
-        <input type="hidden" th:field = "*{filterList}"/>
-        <input type="text" name="keyword" id="keyword" size="50" th:field="*{searchString}" required />
-        <input type="submit" value="Search" />
-    </form>
-</div>
 <div class="row">
 <div class="container ml-3 col-2" >
     <h6>Users</h6>

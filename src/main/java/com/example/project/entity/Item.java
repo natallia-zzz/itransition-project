@@ -44,6 +44,9 @@ public class Item {
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
+    @Column
+    private String textField1;
+
     public Item(){};
 
     public Integer getId() {
@@ -84,5 +87,13 @@ public class Item {
 
     public void setCollection(Collection collection) {
         this.collection = collection;
+    }
+
+    public String getTextField1() {
+        return textField1;
+    }
+
+    public void setTextField1(String textField1) {
+        this.textField1 = textField1;
     }
 }

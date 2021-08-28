@@ -1,6 +1,7 @@
 package com.example.project.service;
 
 import com.example.project.entity.Collection;
+import com.example.project.entity.Comment;
 import com.example.project.entity.Item;
 import com.example.project.entity.Tag;
 import com.example.project.repository.CommentRepository;
@@ -70,7 +71,6 @@ public class ItemService {
         List<Item> allItems=itemRepository.findAll();
         for(Item item:allItems)
         {
-            Set<Tag> tags = item.getTags();
             if(item.getTags().contains(tagRepository.getById(id))) items.add(item);
         }
         return items;
@@ -82,13 +82,13 @@ public class ItemService {
 
     @Transactional
     public List<Item> searchItems(String searchString){
-        if(searchString!= null){
+        if(searchString!= null) {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
-            SearchSession searchSession = Search.session( entityManager );
-            SearchResult<Item> result = searchSession.search(Item.class )
-                    .where( f -> f.match()
-                            .fields( "name", "collection.description" )
-                            .matching( searchString ) )
+            SearchSession searchSession = Search.session(entityManager);
+            SearchResult<Item> result = searchSession.search(Item.class)
+                    .where(f -> f.match()
+                            .fields("name", "collection.description", "comments.content")
+                            .matching(searchString))
                     .fetchAll();
             long totalHitCount = result.total().hitCount();
             List<Item> results = result.hits();

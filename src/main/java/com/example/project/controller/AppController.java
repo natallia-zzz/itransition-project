@@ -74,12 +74,13 @@ public class AppController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-
+        model.addAttribute("filter", new Filter());
         return "signup_form";
     }
     @GetMapping("/tags/{tag_id}")
     public String showTagItems(@PathVariable("tag_id") int tagId,Model model)
     {
+        model.addAttribute("filter", new Filter());
         List<Item> searchItems=itemService.listItemsByTagId(tagId);
         model.addAttribute("searchItems", searchItems);
         this.showAll(model);
@@ -97,6 +98,7 @@ public class AppController {
 
     @GetMapping("/users")
     public String listUsers(Model model) {
+        model.addAttribute("filter", new Filter());
         List<User> listUsers = service.listAll();
         List<Topic> listTopics=topicService.listAll();
         model.addAttribute("listTopics",listTopics);
@@ -107,6 +109,7 @@ public class AppController {
 
     @GetMapping("/users/edit/{id}")
     public String editUser(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("filter", new Filter());
         User user = service.get(id);
         List<Role> listRoles = service.listRoles();
         model.addAttribute("user", user);
@@ -144,6 +147,7 @@ public class AppController {
     }
     @GetMapping("/profile/{id}")
     public String showProfile(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("filter", new Filter());
         User user = service.get(id);
         this.showAll(model);
         List<Collection> collections = service.listCollections(user);
@@ -154,6 +158,7 @@ public class AppController {
 
     @GetMapping("/profile")
     public String showMyProfile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        model.addAttribute("filter", new Filter());
         Long id=userDetails.getId();
         User user = service.get(id);
         List<Collection> collections = service.listCollections(user);
@@ -172,6 +177,7 @@ public class AppController {
 
     @GetMapping("/users/select")
     public String select(@RequestParam(value="ids") List<Long> ids,Model model){
+        model.addAttribute("filter", new Filter());
         model.addAttribute("ids",ids);
         return "redirect:/users/select";
     }
@@ -193,6 +199,7 @@ public class AppController {
     @RequestMapping(value="/users/topics/action",method = {RequestMethod.GET,RequestMethod.POST}, params = "add")
     public String addTopic(Model model)
     {
+        model.addAttribute("filter", new Filter());
         model.addAttribute("topic",new Topic());
         return "new_topic";
     }

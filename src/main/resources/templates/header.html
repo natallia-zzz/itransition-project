@@ -38,6 +38,11 @@
           <a class="nav-link" th:href="@{/profile}">My page</a>
         </li>
       </ul>
+      <form class="mx-2 my-auto d-inline w-100" th:action="@{/searchResults}" th:object="${filter}">
+        <input type="hidden" th:field = "*{filterList}"/>
+        <input type="text" name="keyword" id="keyword" size="50" th:field="*{searchString}" />
+        <input type="submit" value="Search" />
+      </form>
       <span class="navbar-text" sec:authorize="isAuthenticated()">
        <span th:text="${#authentication.getPrincipal().getFullName()}"></span>
       </span>

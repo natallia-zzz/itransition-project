@@ -52,6 +52,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @RequestMapping(value = "/profile/{uid}/collections/{id}/action", method = RequestMethod.GET, params = "add")
     public String newItem(@PathVariable("id") int id,@PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item=new Item();
         item.setCollection(collectionService.get(id));
@@ -66,6 +67,7 @@ public class ItemController {
     @GetMapping("/profile/{uid}/collections/{id}/view_item/{item_id}")
     public String viewItem(Model model,@PathVariable("item_id") int itemId)
     {
+        model.addAttribute("filter", new Filter());
         Item item=itemService.get(itemId);
         Comment comment=new Comment();
         List<Comment> comments=commentService.commentList(itemId);
@@ -173,6 +175,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/edit_item/{item_id}")
     public String editItem(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid,Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         Set<Tag> tags = item.getTags();
@@ -209,6 +212,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
     public String deleteItemConfirmation(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         model.addAttribute("collection", collection);
