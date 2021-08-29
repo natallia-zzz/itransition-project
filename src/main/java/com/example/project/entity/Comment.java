@@ -62,7 +62,7 @@ public class Comment {
     }
 
     @ManyToOne(optional = false,cascade  = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
-    @IndexedEmbedded()
+    @IndexedEmbedded(includeDepth = 2,includePaths = {"collection.description", "name"})
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 

@@ -80,23 +80,6 @@ public class ItemService {
         return tagRepository.findByNameStartingWith(searchTerm);
     }
 
-//    @Transactional
-//    public List<Item> searchItems(String searchString){
-//        if(searchString!= null) {
-//            EntityManager entityManager = entityManagerFactory.createEntityManager();
-//            SearchSession searchSession = Search.session(entityManager);
-//            SearchResult<Item> result = searchSession.search(Item.class)
-//                    .where(f -> f.match()
-//                            .fields("name", "collection.description", "comments.content")
-//                            .matching(searchString))
-//                    .fetchAll();
-//            long totalHitCount = result.total().hitCount();
-//            List<Item> results = result.hits();
-//            return results;
-//        }
-//        return listAll();
-//    }
-
     @Transactional
     public List<Item> searchItems(String searchString){
         if(searchString!= null) {
@@ -113,6 +96,26 @@ public class ItemService {
         }
         return listAll();
     }
+
+//    @Transactional
+//    public List<Item> searchItems(String searchString){
+//        if(searchString!= null) {
+//            EntityManager entityManager = entityManagerFactory.createEntityManager();
+//            SearchSession searchSession = Search.session(entityManager);
+//            SearchResult<Comment> result = searchSession.search(Comment.class)
+//                    .where(f -> f.match()
+//                            .fields("item.name", "item.collection.description", "content")
+//                            .matching(searchString))
+//                    .fetchAll();
+//            List<Comment> comments = result.hits();
+//            List<Item> results = new ArrayList<>();
+//            for(Comment comment :comments){
+//                results.add(comment.getItem());
+//            }
+//            return results;
+//        }
+//        return listAll();
+//    }
 
     public List<String> getFilterTagNames(List<Item> items){
         Set<Tag> filterTags = new HashSet<>();
