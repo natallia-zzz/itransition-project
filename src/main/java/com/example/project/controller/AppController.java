@@ -88,9 +88,10 @@ public class AppController {
     }
 
     @PostMapping("/process_register")
-    public String processRegister(User user) {
-            service.registerDefaultUser(user);
-            return "register_success";
+    public String processRegister(User user, Model model) {
+        model.addAttribute("filter", new Filter());
+        service.registerDefaultUser(user);
+        return "register_success";
         //return "redirect:/register";
     }
 
