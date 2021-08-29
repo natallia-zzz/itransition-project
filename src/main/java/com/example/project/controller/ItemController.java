@@ -53,13 +53,13 @@ public class ItemController {
     @RequestMapping(value = "/profile/{uid}/collections/{id}/action", method = RequestMethod.GET, params = "add")
     public String newItem(@PathVariable("id") int id,@PathVariable("uid") Long uid, Model model){
         model.addAttribute("filter", new Filter());
-        Collection collection = collectionService.get(id);
         Item item=new Item();
         item.setCollection(collectionService.get(id));
         item.setName("");
         itemService.update(item);
         model.addAttribute("item", item);
         System.out.println(item.getId());
+        model.addAttribute("itemId", item.getId());
         model.addAttribute("other", "");
         return "new_item";
     }
@@ -154,8 +154,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/add_item")
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,
-                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId,@RequestParam("name") String name){
-        Item item=itemService.get(itemId);
+                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId, Item item){
         System.out.println(itemId);
         if(otherTag!=""){
             List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
@@ -167,7 +166,8 @@ public class ItemController {
             }
             item.setTags(tags);
         }
-        item.setName(name);
+        item.setCollection(collectionService.get(id));
+        item.setId(itemId);
         itemService.update(item);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }

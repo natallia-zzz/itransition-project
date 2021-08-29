@@ -30,100 +30,100 @@
         <h1>New item </h1>
     </div>
     <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/add_item'}"
-          method="post" style="max-width: 600px; margin: 0 auto;">
+          th:object="${item}"  method="post" style="max-width: 600px; margin: 0 auto;">
         <div class="m-3">
             <div class="form-group row">
                 <label class="col-4 col-form-label" >name: </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.name}" class="form-control" required />
-                    <input type="hidden" th:value="${item.id}" th:name="item_id">
+                    <input type="text" th:field="*{name}" class="form-control" required />
+                    <input type="hidden" th:value="${itemId}" th:name="item_id">
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkTextfield1()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getTextfield1()}">  </label>
                 <div class="col-8">
-                    <textarea th:field="*{item.textField1}" class="form-control" th:name="text"></textarea>
+                    <textarea th:field="*{textField1}" class="form-control" th:name="text"></textarea>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkTextfield2()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getTextfield2()}">  </label>
                 <div class="col-8">
-                    <textarea th:field="*{item.textField2}" class="form-control" th:name="text"></textarea>
+                    <textarea th:field="*{textField2}" class="form-control" th:name="text"></textarea>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkTextfield3()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getTextfield3()}">  </label>
                 <div class="col-8">
-                    <textarea th:field="*{item.textField3}" class="form-control" th:name="text"></textarea>
+                    <textarea th:field="*{textField3}" class="form-control" th:name="text"></textarea>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkStringfield1()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getStringfield1()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.stringField1}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{stringField1}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkStringfield2()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getStringfield2()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.stringField2}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{stringField2}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkStringfield3()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getStringfield3()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.stringField3}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{stringField3}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkNumberfield1()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getNumberfield1()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.numberField1}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{numberField1}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkNumberfield2()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getNumberfield2()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.numberField2}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{numberField2}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkNumberfield3()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getNumberfield3()}">  </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{item.numberField3}" class="form-control" th:name="text"/>
+                    <input type="text" th:field="*{numberField3}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkDatefield1()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getDatefield1()}">  </label>
                 <div class="col-8">
-                    <input type="date" th:field="*{item.dateField1}" class="form-control" th:name="text"/>
+                    <input type="date" th:field="*{dateField1}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkDatefield2()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getDatefield2()}">  </label>
                 <div class="col-8">
-                    <input type="date" th:field="*{item.dateField2}" class="form-control" th:name="text"/>
+                    <input type="date" th:field="*{dateField2}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkDatefield3()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getDatefield3()}">  </label>
                 <div class="col-8">
-                    <input type="date" th:field="*{item.dateField3}" class="form-control" th:name="text"/>
+                    <input type="date" th:field="*{dateField3}" class="form-control" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkBooleanfield1()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getBooleanfield1()}">  </label>
                 <div>
-                    <input type="checkbox" th:field="*{item.booleanField1}" class="m-2" th:name="text"/>
+                    <input type="checkbox" th:field="*{booleanField1}" class="m-2" th:name="text"/>
                 </div>
             </div>
             <div class="form-group row" th:if="${item.collection.checkBooleanfield2()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getBooleanfield2()}">  </label>
-                    <input type="checkbox" th:field="*{item.booleanField2}"class="m-2" th:name="text"/>
+                <input type="checkbox" th:field="*{booleanField2}"class="m-2" th:name="text"/>
             </div>
             <div class="form-group row" th:if="${item.collection.checkBooleanfield3()}">
                 <label class="col-4 col-form-label" th:text="${item.collection.getBooleanfield3()}">  </label>
-                <input type="checkbox" th:field="*{item.booleanField3}" class="m-2" th:name="text"/>
+                <input type="checkbox" th:field="*{booleanField3}" class="m-2" th:name="text"/>
             </div>
             <div class="form-group row">
                 <label class="col-4 col-form-label">Tags: </label>

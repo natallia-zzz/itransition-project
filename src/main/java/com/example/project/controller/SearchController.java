@@ -43,6 +43,9 @@ public class SearchController {
         }
         else{model.addAttribute("listItems", listItems);}
         model.addAttribute("filter", filter);
+        model.addAttribute("cancel",new ArrayList<Tag>());
         return "search_results";
     }
+
+
 }
