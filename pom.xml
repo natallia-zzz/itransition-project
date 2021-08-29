@@ -123,7 +123,7 @@
 <!--            <artifactId>thymeleaf-extras-springsecurity5</artifactId>-->
 <!--        </dependency>-->
         <dependency>
-            <groupId>com.atlassian.commonmark</groupId>
+            <groupId>org.commonmark</groupId>
             <artifactId>commonmark</artifactId>
             <version>0.17.0</version>
         </dependency>
