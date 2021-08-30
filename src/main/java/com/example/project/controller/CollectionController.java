@@ -1,9 +1,6 @@
 package com.example.project.controller;
 
-import com.example.project.entity.Collection;
-import com.example.project.entity.Item;
-import com.example.project.entity.Topic;
-import com.example.project.entity.User;
+import com.example.project.entity.*;
 import com.example.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,6 +53,7 @@ public class CollectionController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("profile/{uid}/collections/new")
     public String showNewCollectionForm(@PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         List<Topic> topics=topicService.listAll();
         Collection collection=new Collection();
         Topic topic=new Topic();
@@ -63,12 +61,14 @@ public class CollectionController {
         model.addAttribute("topic",topic);
         model.addAttribute("topics",topics);
         model.addAttribute("collection", collection);
+        model.addAttribute("jsonString", "");
         return "collection_form";
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("profile/{uid}/collections/add")
-    public String addNewCollection(@PathVariable("uid") Long uid, @RequestParam(value="userId") Long userId,Collection collection){
+    public String addNewCollection(@PathVariable("uid") Long uid, @RequestParam(value="userId") Long userId,
+                                   Collection collection){
         collection.setOwner(service.get(userId));
         collectionService.update(collection);
         return "redirect:/profile/{uid}";
@@ -79,6 +79,7 @@ public class CollectionController {
     //@PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("profile/{uid}/collections/{id}/view")
     public String viewCollection(@PathVariable("id") int id, @PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         List<Collection> collections=collectionService.collectionList(uid);
         List<Item> items = itemService.getByCollectionId(id);
@@ -123,7 +124,7 @@ public class CollectionController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @RequestMapping(value = "profile/{uid}/collections/{id}/view", method = RequestMethod.POST, params = "save")
     public String saveCollection(@PathVariable("id") int id,  @PathVariable("uid") Long uid, Collection collection){
-        System.out.println(collection==null);
+        collection.updateItems();
         collection.setOwner(service.get(uid));
         collectionService.update(collection);
         return "redirect:/profile/"+uid;

@@ -1,7 +1,9 @@
 package com.example.project.entity;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -39,6 +41,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+    @OneToMany(orphanRemoval=true)
+    List<Comment> comments=new ArrayList<>();
+    @OneToMany(orphanRemoval=true)
+    List<Like> likes=new ArrayList<>();
 
     public Long getId() {
         return id;

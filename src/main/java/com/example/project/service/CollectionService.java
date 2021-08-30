@@ -18,7 +18,7 @@ public class CollectionService {
         return collectionRepo.findAll();
     }
     public List<Collection> collectionList(Long id){return collectionRepo.findByOwnerId(id);}
-    public List<Collection> collectionListTopic(Long id){return collectionRepo.findByTopicId(id);}
+    public List<Collection> collectionListTopic(Integer id){return collectionRepo.findByTopicId(id);}
     public void delete(Integer id){collectionRepo.deleteById(id);}
     public Collection get(Integer id){return collectionRepo.getById(id);}
     public void update(Collection collection){collectionRepo.save(collection);}

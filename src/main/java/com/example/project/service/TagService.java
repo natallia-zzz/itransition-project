@@ -1,6 +1,8 @@
 package com.example.project.service;
 
+import com.example.project.entity.Item;
 import com.example.project.entity.Tag;
+import com.example.project.repository.ItemRepository;
 import com.example.project.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -12,6 +14,7 @@ import java.util.List;
 public class TagService {
     @Autowired
     private TagRepository tagRepository;
+
 
     public List<Tag> tagList(){return tagRepository.findAll();}
     public List<Tag> listTags(){ return tagRepository.findAll();}
@@ -36,5 +39,9 @@ public class TagService {
     public List<Tag> fetchTags(String searchTerm) throws Exception {
         return tagRepository.findByNameStartingWith(searchTerm);
 
+    }
+    public void deleteTag(int id)
+    {
+        tagRepository.deleteById(id);
     }
 }

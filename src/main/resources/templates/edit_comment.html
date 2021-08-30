@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Edit comment</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="card-body">
+    <div class="container" th:if="${comment!=null}" >
+    </div>
+    <blockquote class="blockquote mb-0">
+        <div class="container" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${comment.user.id}">
+            <textarea class="form-control" name="markdown"  th:field="${comment.content}" th:text="${comment.content}"></textarea>
+        </div>
+        <div sec:authorize="isAuthenticated()" th:unless="${#authentication.getPrincipal().getId()} eq ${comment.user.id}" th:utext="${commemt.markdownToHtml()}"></div>
+        <div sec:authorize="!isAuthenticated()" th:utext="${comment.markdownToHtml()}"></div>
+    </blockquote>
+</div>
+</body>
+</html>

@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
@@ -41,6 +40,98 @@
                         </select>
 
                     </div>
+                </div>
+            </div>
+            <h5>Optional fields</h5>
+            <p>To add a field type enter the name of the desireable field</p>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">textfield: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield1}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">textfield: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield2}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">textfield: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield3}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">single line field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield1}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">single line field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield2}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">single line field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield3}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">number field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield1}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">number field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield2}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">number field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield3}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">date field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield1}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">date field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield2}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">date field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield3}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">boolean field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield1}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">boolean field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield2}"></input>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 col-form-label">boolean field: </label>
+                <div class="col-8">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield3}"></input>
                 </div>
             </div>
             <div>

@@ -15,5 +15,6 @@ public class CommentService {
     private CommentRepository commentRepository;
     public List<Comment> commentList(Integer id){return commentRepository.findByItemId(id);}
     public void save(Comment comment) {commentRepository.save(comment);}
-
+    public void delete(Integer id){commentRepository.deleteById(id);}
+    public Comment get(Integer id){return commentRepository.getById(id);}
 }

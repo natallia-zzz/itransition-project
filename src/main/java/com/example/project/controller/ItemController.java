@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Controller
@@ -35,6 +36,8 @@ public class ItemController {
     LikeService likeService;
     @Autowired
     TagService tagService;
+    @Autowired
+    UserService userService;
 
 //    @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
 //    @GetMapping("/profile/{uid}/collections/{id}/items")
@@ -49,13 +52,14 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @RequestMapping(value = "/profile/{uid}/collections/{id}/action", method = RequestMethod.GET, params = "add")
     public String newItem(@PathVariable("id") int id,@PathVariable("uid") Long uid, Model model){
-        Collection collection = collectionService.get(id);
+        model.addAttribute("filter", new Filter());
         Item item=new Item();
         item.setCollection(collectionService.get(id));
         item.setName("");
         itemService.update(item);
         model.addAttribute("item", item);
         System.out.println(item.getId());
+        model.addAttribute("itemId", item.getId());
         model.addAttribute("other", "");
         return "new_item";
     }
@@ -63,6 +67,7 @@ public class ItemController {
     @GetMapping("/profile/{uid}/collections/{id}/view_item/{item_id}")
     public String viewItem(Model model,@PathVariable("item_id") int itemId)
     {
+        model.addAttribute("filter", new Filter());
         Item item=itemService.get(itemId);
         Comment comment=new Comment();
         List<Comment> comments=commentService.commentList(itemId);
@@ -71,10 +76,35 @@ public class ItemController {
         List<Like> likes=likeService.likeList(itemId);
         Integer size=likes.size();
         model.addAttribute("size",size);
-        model.addAttribute("comment",comment);
+        model.addAttribute("curcomment",comment);
         model.addAttribute("comments",comments);
         model.addAttribute("liked",checkLike(itemId));
         return "view_item";
+    }
+
+
+    @PreAuthorize("#user== authentication.principal.getId()")
+
+    @RequestMapping(value = "/profile/{uid}/collections/{id}/view_item/{item_id}/action", method = {RequestMethod.POST,RequestMethod.GET}, params = "save")
+    //ResponseBody
+    public String saveComment(@PathVariable("item_id") int itemId,  @PathVariable("uid") Long uid,
+                              @RequestParam("user") Long user,
+                              @RequestParam("commentId") int commentId,@ModelAttribute Comment comment){
+        Comment curcomment=commentService.get(commentId);
+        curcomment.setItem(itemService.get(itemId));
+        curcomment.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        curcomment.setUser(userService.get(uid));
+        commentService.save(comment);
+        return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
+    }
+
+    @PreAuthorize("#user== authentication.principal.getId()")
+    @RequestMapping(value = "/profile/{uid}/collections/{id}/view_item/{item_id}/action", method = {RequestMethod.POST,RequestMethod.GET}, params = "delete")
+    public String deleteComment(@PathVariable("item_id") int itemId,  @PathVariable("uid") Long uid,
+                                @RequestParam("user") Long user,
+                                @RequestParam("commentId") int commentId){
+        commentService.delete(commentId);
+        return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
     }
 
     public boolean checkLike( int itemId)
@@ -116,6 +146,7 @@ public class ItemController {
                 getAuthentication().getPrincipal();
         comment.setUser(myUserDetails.getUser());
         comment.setItem(itemService.get(itemId));
+        comment.setCreationDate(new Timestamp(System.currentTimeMillis()));
         commentService.save(comment);
         return "redirect:/profile/{uid}/collections/{id}/view_item/{item_id}";
     }
@@ -123,8 +154,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/add_item")
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,
-                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId,@RequestParam("name") String name){
-        Item item=itemService.get(itemId);
+                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId, Item item){
         System.out.println(itemId);
         if(otherTag!=""){
             List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
@@ -136,7 +166,8 @@ public class ItemController {
             }
             item.setTags(tags);
         }
-        item.setName(name);
+        item.setCollection(collectionService.get(id));
+        item.setId(itemId);
         itemService.update(item);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
@@ -144,6 +175,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/edit_item/{item_id}")
     public String editItem(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid,Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         Set<Tag> tags = item.getTags();
@@ -180,6 +212,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
     public String deleteItemConfirmation(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         model.addAttribute("collection", collection);
@@ -190,6 +223,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
     public String deleteItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,@PathVariable("item_id") int itemId){
+
         itemService.delete(itemId);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
@@ -199,13 +233,19 @@ public class ItemController {
     public String deleteItems(@RequestParam(value="ids", required = false) List <Integer> ids, @PathVariable("id") int id, @PathVariable("uid") Long uid){
         if (ids != null)
             for (Integer itemId : ids)
+            {
+                Set<Tag> tags=itemService.get(itemId).getTags();
+                for(Tag tag:tags)
+                    if (itemService.listItemsByTagId(tag.getId()).size()==1)
+                        tagService.deleteTag(tag.getId());
                 itemService.delete(itemId);
+            }
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
 
     @RequestMapping(value="/tagsAutocomplete")
     @ResponseBody
-    public List<Tag> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+    public List<Tag> tagAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
         List<Tag> suggestions = new ArrayList<Tag>();
         try {
             // only update when term is three characters.
