@@ -10,13 +10,15 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
-
+import java.sql.Timestamp;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -213,6 +215,11 @@ public class Collection{
 
     public void setTextfield1(String textfield1) {
         this.textfield1 = textfield1;
+        if(textfield1==null || textfield1.isEmpty()){
+            for(Item item: this.items){
+                item.setTextField1("");
+            }
+        }
     }
 
     public String getTextfield2() {
@@ -221,6 +228,11 @@ public class Collection{
 
     public void setTextfield2(String textfield2) {
         this.textfield2 = textfield2;
+        if(textfield2==null || textfield2.isEmpty()){
+            for(Item item: this.items){
+                item.setTextField2("");
+            }
+        }
     }
 
     public String getTextfield3() {
@@ -229,6 +241,11 @@ public class Collection{
 
     public void setTextfield3(String textfield3) {
         this.textfield3 = textfield3;
+        if(textfield3==null || textfield3.isEmpty()){
+            for(Item item: this.items){
+                item.setTextField3("");
+            }
+        }
     }
 
     public String getStringfield1() {
@@ -237,6 +254,11 @@ public class Collection{
 
     public void setStringfield1(String stringfield1) {
         this.stringfield1 = stringfield1;
+        if(stringfield1==null || stringfield1.isEmpty()){
+            for(Item item: this.items){
+                item.setStringField1("");
+            }
+        }
     }
 
     public String getStringfield2() {
@@ -245,6 +267,11 @@ public class Collection{
 
     public void setStringfield2(String stringfield2) {
         this.stringfield2 = stringfield2;
+        if(stringfield2==null || stringfield2.isEmpty()){
+            for(Item item: this.items){
+                item.setStringField2("");
+            }
+        }
     }
 
     public String getStringfield3() {
@@ -253,6 +280,11 @@ public class Collection{
 
     public void setStringfield3(String stringfield3) {
         this.stringfield3 = stringfield3;
+        if(stringfield3==null || stringfield3.isEmpty()){
+            for(Item item: this.items){
+                item.setStringField3("");
+            }
+        }
     }
 
     public String getNumberfield1() {
@@ -261,6 +293,11 @@ public class Collection{
 
     public void setNumberfield1(String numberfield1) {
         this.numberfield1 = numberfield1;
+        if(numberfield1==null || numberfield1.isEmpty()){
+            for(Item item: this.items){
+                item.setNumberField1(0);
+            }
+        }
     }
 
     public String getNumberfield2() {
@@ -269,6 +306,11 @@ public class Collection{
 
     public void setNumberfield2(String numberfield2) {
         this.numberfield2 = numberfield2;
+        if(numberfield2==null || numberfield2.isEmpty()){
+            for(Item item: this.items){
+                item.setNumberField2(0);
+            }
+        }
     }
 
     public String getNumberfield3() {
@@ -277,6 +319,11 @@ public class Collection{
 
     public void setNumberfield3(String numberfield3) {
         this.numberfield3 = numberfield3;
+        if(numberfield3==null || numberfield3.isEmpty()){
+            for(Item item: this.items){
+                item.setNumberField3(0);
+            }
+        }
     }
 
     public String getDatefield1() {
@@ -285,6 +332,11 @@ public class Collection{
 
     public void setDatefield1(String datefield1) {
         this.datefield1 = datefield1;
+        if(datefield1==null || datefield1.isEmpty()){
+            for(Item item: this.items){
+                item.setDateField1(new java.sql.Date(System.currentTimeMillis()));
+            }
+        }
     }
 
     public String getDatefield2() {
@@ -293,14 +345,22 @@ public class Collection{
 
     public void setDatefield2(String datefield2) {
         this.datefield2 = datefield2;
+        if(datefield2==null || datefield2.isEmpty()){
+            for(Item item: this.items){
+                item.setDateField2(new java.sql.Date(System.currentTimeMillis()));
+            }
+        }
     }
 
-    public String getDatefield3() {
-        return datefield3;
-    }
+    public String getDatefield3() { return datefield3; }
 
     public void setDatefield3(String datefield3) {
         this.datefield3 = datefield3;
+        if(datefield3==null || datefield3.isEmpty()){
+            for(Item item: this.items){
+                item.setDateField3(new java.sql.Date(System.currentTimeMillis()));
+            }
+        }
     }
 
     public String getBooleanfield1() {
@@ -309,6 +369,11 @@ public class Collection{
 
     public void setBooleanfield1(String booleanfield1) {
         this.booleanfield1 = booleanfield1;
+        if(booleanfield1==null || booleanfield1.isEmpty()){
+            for(Item item: this.items){
+                item.setBooleanField1(false);
+            }
+        }
     }
 
     public String getBooleanfield2() {
@@ -317,6 +382,11 @@ public class Collection{
 
     public void setBooleanfield2(String booleanfield2) {
         this.booleanfield2 = booleanfield2;
+        if(booleanfield2==null || booleanfield2.isEmpty()){
+            for(Item item: this.items){
+                item.setBooleanField2(false);
+            }
+        }
     }
 
     public String getBooleanfield3() {
@@ -325,5 +395,10 @@ public class Collection{
 
     public void setBooleanfield3(String booleanfield3) {
         this.booleanfield3 = booleanfield3;
+        if(booleanfield3==null || booleanfield3.isEmpty()){
+            for(Item item: this.items){
+                item.setBooleanField3(false);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+import com.example.project.HtmlMarcdown;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,22 +65,22 @@ public class Item {
     private String stringField3;
 
     @Column
-    private float numberField1;
+    private float numberField1 = 0;
 
     @Column
-    private float numberField2;
+    private float numberField2 = 0;
 
     @Column
-    private float numberField3;
+    private float numberField3 = 0;
 
     @Column
-    private Date dateField1;
+    private Date dateField1 = new java.sql.Date(System.currentTimeMillis());
 
     @Column
-    private Date dateField2;
+    private Date dateField2 = new java.sql.Date(System.currentTimeMillis());
 
     @Column
-    private Date dateField3;
+    private Date dateField3 = new java.sql.Date(System.currentTimeMillis());
 
     @Column
     private Boolean booleanField1 = false;
@@ -140,6 +141,11 @@ public class Item {
         this.textField1 = textField1;
     }
 
+    public String showTextField1(){
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField1);
+    }
+
     public String getTextField2() {
         return textField2;
     }
@@ -148,12 +154,22 @@ public class Item {
         this.textField2 = textField2;
     }
 
+    public String showTextField2(){
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField2);
+    }
+
     public String getTextField3() {
         return textField3;
     }
 
     public void setTextField3(String textField3) {
         this.textField3 = textField3;
+    }
+
+    public String showTextField3(){
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField3);
     }
 
     public String getStringField1() {

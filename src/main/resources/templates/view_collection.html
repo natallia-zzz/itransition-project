@@ -269,9 +269,9 @@
                     <td>
                         <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
                     </td>
-                    <td th:if="${collection.checkTextfield1()}" th:text="${item.textField1}"></td>
-                    <td th:if="${collection.checkTextfield2()}" th:text="${item.textField2}"></td>
-                    <td th:if="${collection.checkTextfield3()}" th:text="${item.textField3}"></td>
+                    <td th:if="${collection.checkTextfield1()}" th:text="${item.showTextField1()}"></td>
+                    <td th:if="${collection.checkTextfield2()}" th:text="${item.showTextField2()}"></td>
+                    <td th:if="${collection.checkTextfield3()}" th:text="${item.showTextField3()}"></td>
                     <td th:if="${collection.checkStringfield1()}" th:text="${item.stringField1}"></td>
                     <td th:if="${collection.checkStringfield2()}" th:text="${item.stringField2}"></td>
                     <td th:if="${collection.checkStringfield3()}" th:text="${item.stringField3}"></td>
