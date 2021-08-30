@@ -213,191 +213,165 @@ public class Collection{
         return textfield1;
     }
 
-    public void setTextfield1(String textfield1) {
-        this.textfield1 = textfield1;
-        if(textfield1==null || textfield1.isEmpty()){
-            for(Item item: this.items){
-                item.setTextField1("");
-            }
-        }
-    }
+    public void setTextfield1(String textfield1) { this.textfield1 = textfield1; }
 
     public String getTextfield2() {
         return textfield2;
     }
 
-    public void setTextfield2(String textfield2) {
-        this.textfield2 = textfield2;
-        if(textfield2==null || textfield2.isEmpty()){
-            for(Item item: this.items){
-                item.setTextField2("");
-            }
-        }
-    }
+    public void setTextfield2(String textfield2) { this.textfield2 = textfield2; }
 
     public String getTextfield3() {
         return textfield3;
     }
 
-    public void setTextfield3(String textfield3) {
-        this.textfield3 = textfield3;
-        if(textfield3==null || textfield3.isEmpty()){
-            for(Item item: this.items){
-                item.setTextField3("");
-            }
-        }
-    }
+    public void setTextfield3(String textfield3) { this.textfield3 = textfield3; }
 
     public String getStringfield1() {
         return stringfield1;
     }
 
-    public void setStringfield1(String stringfield1) {
-        this.stringfield1 = stringfield1;
-        if(stringfield1==null || stringfield1.isEmpty()){
-            for(Item item: this.items){
-                item.setStringField1("");
-            }
-        }
-    }
+    public void setStringfield1(String stringfield1) { this.stringfield1 = stringfield1; }
 
     public String getStringfield2() {
         return stringfield2;
     }
 
-    public void setStringfield2(String stringfield2) {
-        this.stringfield2 = stringfield2;
-        if(stringfield2==null || stringfield2.isEmpty()){
-            for(Item item: this.items){
-                item.setStringField2("");
-            }
-        }
-    }
+    public void setStringfield2(String stringfield2) { this.stringfield2 = stringfield2; }
 
     public String getStringfield3() {
         return stringfield3;
     }
 
-    public void setStringfield3(String stringfield3) {
-        this.stringfield3 = stringfield3;
-        if(stringfield3==null || stringfield3.isEmpty()){
-            for(Item item: this.items){
-                item.setStringField3("");
-            }
-        }
-    }
+    public void setStringfield3(String stringfield3) { this.stringfield3 = stringfield3; }
 
     public String getNumberfield1() {
         return numberfield1;
     }
 
-    public void setNumberfield1(String numberfield1) {
-        this.numberfield1 = numberfield1;
-        if(numberfield1==null || numberfield1.isEmpty()){
-            for(Item item: this.items){
-                item.setNumberField1(0);
-            }
-        }
-    }
+    public void setNumberfield1(String numberfield1) { this.numberfield1 = numberfield1; }
 
     public String getNumberfield2() {
         return numberfield2;
     }
 
-    public void setNumberfield2(String numberfield2) {
-        this.numberfield2 = numberfield2;
-        if(numberfield2==null || numberfield2.isEmpty()){
-            for(Item item: this.items){
-                item.setNumberField2(0);
-            }
-        }
-    }
+    public void setNumberfield2(String numberfield2) { this.numberfield2 = numberfield2; }
 
     public String getNumberfield3() {
         return numberfield3;
     }
 
-    public void setNumberfield3(String numberfield3) {
-        this.numberfield3 = numberfield3;
-        if(numberfield3==null || numberfield3.isEmpty()){
-            for(Item item: this.items){
-                item.setNumberField3(0);
-            }
-        }
-    }
+    public void setNumberfield3(String numberfield3) { this.numberfield3 = numberfield3; }
 
     public String getDatefield1() {
         return datefield1;
     }
 
-    public void setDatefield1(String datefield1) {
-        this.datefield1 = datefield1;
-        if(datefield1==null || datefield1.isEmpty()){
-            for(Item item: this.items){
-                item.setDateField1(new java.sql.Date(System.currentTimeMillis()));
-            }
-        }
-    }
+    public void setDatefield1(String datefield1) { this.datefield1 = datefield1; }
 
     public String getDatefield2() {
         return datefield2;
     }
 
-    public void setDatefield2(String datefield2) {
-        this.datefield2 = datefield2;
-        if(datefield2==null || datefield2.isEmpty()){
-            for(Item item: this.items){
-                item.setDateField2(new java.sql.Date(System.currentTimeMillis()));
-            }
-        }
-    }
+    public void setDatefield2(String datefield2) { this.datefield2 = datefield2; }
 
     public String getDatefield3() { return datefield3; }
 
-    public void setDatefield3(String datefield3) {
-        this.datefield3 = datefield3;
-        if(datefield3==null || datefield3.isEmpty()){
-            for(Item item: this.items){
-                item.setDateField3(new java.sql.Date(System.currentTimeMillis()));
-            }
-        }
-    }
+    public void setDatefield3(String datefield3) { this.datefield3 = datefield3; }
 
     public String getBooleanfield1() {
         return booleanfield1;
     }
 
-    public void setBooleanfield1(String booleanfield1) {
-        this.booleanfield1 = booleanfield1;
-        if(booleanfield1==null || booleanfield1.isEmpty()){
-            for(Item item: this.items){
-                item.setBooleanField1(false);
-            }
-        }
-    }
+    public void setBooleanfield1(String booleanfield1) { this.booleanfield1 = booleanfield1; }
 
     public String getBooleanfield2() {
         return booleanfield2;
     }
 
-    public void setBooleanfield2(String booleanfield2) {
-        this.booleanfield2 = booleanfield2;
-        if(booleanfield2==null || booleanfield2.isEmpty()){
-            for(Item item: this.items){
-                item.setBooleanField2(false);
-            }
-        }
-    }
+    public void setBooleanfield2(String booleanfield2) { this.booleanfield2 = booleanfield2; }
 
     public String getBooleanfield3() {
         return booleanfield3;
     }
 
-    public void setBooleanfield3(String booleanfield3) {
-        this.booleanfield3 = booleanfield3;
-        if(booleanfield3==null || booleanfield3.isEmpty()){
-            for(Item item: this.items){
+    public void setBooleanfield3(String booleanfield3) { this.booleanfield3 = booleanfield3; }
+
+    public void updateItems(){
+        if(!checkTextfield1()&&items!=null){
+            for(Item item: items){
+                item.setTextField1(null);
+            }
+        }
+        if(!checkTextfield2()&&items!=null){
+            for(Item item: items){
+                item.setTextField2(null);
+            }
+        }
+        if(!checkTextfield3()&&items!=null){
+            for(Item item: items){
+                item.setTextField3(null);
+            }
+        }
+        if(!checkStringfield1()&&items!=null){
+            for(Item item: items){
+                item.setStringField1(null);
+            }
+        }
+        if(!checkStringfield2()&&items!=null){
+            for(Item item: items){
+                item.setStringField2(null);
+            }
+        }
+        if(!checkStringfield3()&&items!=null){
+            for(Item item: items){
+                item.setStringField3(null);
+            }
+        }
+        if(!checkNumberfield1()&&items!=null){
+            for(Item item: items){
+                item.setNumberField1(0);
+            }
+        }
+        if(!checkNumberfield2()&&items!=null){
+            for(Item item: items){
+                item.setNumberField2(0);
+            }
+        }
+        if(!checkNumberfield3()&&items!=null){
+            for(Item item: items){
+                item.setNumberField3(0);
+            }
+        }
+        if(!checkBooleanfield1()&&items!=null){
+            for(Item item: items){
+                item.setBooleanField1(false);
+            }
+        }
+        if(!checkBooleanfield2()&&items!=null){
+            for(Item item: items){
+                item.setBooleanField2(false);
+            }
+        }
+        if(!checkBooleanfield3()&&items!=null){
+            for(Item item: items){
                 item.setBooleanField3(false);
+            }
+        }
+
+        if(!checkDatefield1()&&items!=null){
+            for(Item item: items){
+                item.setDateField1(new java.sql.Date(System.currentTimeMillis()));
+            }
+        }
+        if(!checkDatefield2()&&items!=null){
+            for(Item item: items){
+                item.setDateField2(new java.sql.Date(System.currentTimeMillis()));
+            }
+        }
+        if(!checkDatefield3()&&items!=null){
+            for(Item item: items){
+                item.setDateField3(new java.sql.Date(System.currentTimeMillis()));
             }
         }
     }

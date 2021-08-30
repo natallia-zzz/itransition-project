@@ -142,6 +142,9 @@ public class Item {
     }
 
     public String showTextField1(){
+        if(this.textField1 == null || this.textField1.isEmpty()){
+            return "";
+        }
         HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
         return htmlMarcdown.toHtml(this.textField1);
     }
@@ -155,6 +158,9 @@ public class Item {
     }
 
     public String showTextField2(){
+        if(this.textField2 == null || this.textField2.isEmpty()){
+            return "";
+        }
         HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
         return htmlMarcdown.toHtml(this.textField2);
     }
@@ -168,6 +174,9 @@ public class Item {
     }
 
     public String showTextField3(){
+        if(this.textField3 == null || this.textField3.isEmpty()){
+            return "";
+        }
         HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
         return htmlMarcdown.toHtml(this.textField3);
     }

@@ -124,7 +124,7 @@ public class CollectionController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @RequestMapping(value = "profile/{uid}/collections/{id}/view", method = RequestMethod.POST, params = "save")
     public String saveCollection(@PathVariable("id") int id,  @PathVariable("uid") Long uid, Collection collection){
-
+        collection.updateItems();
         collection.setOwner(service.get(uid));
         collectionService.update(collection);
         return "redirect:/profile/"+uid;
