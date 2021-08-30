@@ -152,9 +152,8 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/add_item")
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,
-                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId,@RequestParam("name") String name){
-        Item item=itemService.get(itemId);
-        System.out.println(itemId);
+                          @RequestParam("otherTag") String otherTag,
+                          @RequestParam("item_id") int itemId,  Item it){
         if(otherTag!=""){
             List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
             Tag temporaryTag;
@@ -163,10 +162,11 @@ public class ItemController {
                 temporaryTag = tagService.saveTag(element);
                 tags.add(temporaryTag);
             }
-            item.setTags(tags);
+            it.setTags(tags);
         }
-        item.setName(name);
-        itemService.update(item);
+        it.setId(itemId);
+        it.setCollection(collectionService.get(id));
+        itemService.update(it);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
 

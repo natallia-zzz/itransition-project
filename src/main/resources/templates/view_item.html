@@ -60,9 +60,9 @@
 
                     <div class="card w-100">
                         <form th:action="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/'+${item.id}+'/action'}">
-                            <input type="hidden" th:value="${comment.id}" th:name="commentId">
-                            <input type="hidden" th:value="${comment.user.id}" th:name="user">
-                        <div class="row">
+                                <input type="hidden" th:value="${comment.id}" th:name="commentId">
+                                <input type="hidden" th:value="${comment.user.id}" th:name="user">
+                            <div class="row">
 
                             <div class="col-11 card-header">
                                 <span th:text="${comment.user.getFullName()}"></span>

@@ -76,7 +76,9 @@
         <div class="container">
             <label>Description: </label>
             <div class="container">
-                <textarea class="form-control"  rows="10" th:utext="${collection.markdownToHtml()}" readonly></textarea>
+<!--                <textarea class="form-control"  rows="10"  readonly>-->
+                    <div th:utext="${collection.markdownToHtml()}" ></div>
+<!--                </textarea>-->
             </div>
         </div>
         <div class="container">
@@ -97,7 +99,8 @@
         <div class="container">
             <label>Description: </label>
             <div class="container">
-                <textarea class="form-control"  rows="10" th:utext="${collection.markdownToHtml()}" readonly></textarea>
+<!--                <textarea class="form-control"  rows="10" th:utext="${collection.markdownToHtml()}" readonly></textarea>-->
+                <div th:utext="${collection.markdownToHtml()}"></div>
             </div>
         </div>
         <div class="container">
