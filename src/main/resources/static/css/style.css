@@ -1,0 +1,14 @@
+a {
+    color: darkslategray;
+    text-decoration: none;
+}
+
+a:hover {
+    color: dodgerblue;
+    text-decoration: underline;
+}
+
+.add:hover
+{
+    text-decoration: none;
+}

@@ -326,4 +326,5 @@ public class Collection{
     public void setBooleanfield3(String booleanfield3) {
         this.booleanfield3 = booleanfield3;
     }
+
 }

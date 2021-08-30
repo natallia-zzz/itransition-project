@@ -11,7 +11,7 @@
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
-
+<br>
 <div class="container-fluid">
     <div class="row">
         <h4 th:text="'Collection '+${collection.name}"></h4>
@@ -156,6 +156,7 @@
             <button type="submit" name="save" class="btn btn-primary">Save</button>
             <button type="submit" name="delete" class="btn btn-primary">Delete</button>
         </div>
+            <br>
     </form>
     </div>
     <div class="col-5" sec:authorize="isAuthenticated()" th:unless="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}">
@@ -255,6 +256,7 @@
                     <button name="delete" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" type="submit" class="btn btn-primary">Delete</button>
                 </div>
             </div>
+            <br>
         </div>
 <br>
         <div class="table-responsive">
@@ -290,9 +292,9 @@
                     <td>
                         <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
                     </td>
-                    <td th:if="${collection.checkTextfield1()}"><div  th:text="${item.textField1}"></div></td>
-                    <td th:if="${collection.checkTextfield2()}"><div  th:text="${item.textField2}"></div></td>
-                    <td th:if="${collection.checkTextfield3()}"><div  th:text="${item.textField3}"></div></td>
+                    <td th:if="${collection.checkTextfield1()}"><div  th:utext="${item.showTextField1()}"></div></td>
+                    <td th:if="${collection.checkTextfield2()}"><div  th:utext="${item.showTextField2()}"></div></td>
+                    <td th:if="${collection.checkTextfield3()}"><div  th:utext="${item.showTextField3()}"></div></td>
                     <td th:if="${collection.checkStringfield1()}" th:text="${item.stringField1}"></td>
                     <td th:if="${collection.checkStringfield2()}" th:text="${item.stringField2}"></td>
                     <td th:if="${collection.checkStringfield3()}" th:text="${item.stringField3}"></td>

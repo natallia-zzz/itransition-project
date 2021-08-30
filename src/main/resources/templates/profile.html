@@ -9,10 +9,10 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="col-7">
-<div class="container" th:if="${user != null}"><span th:text="${user.getFullName()}"></span>
+<div class="col-8">
+<div class="container" th:if="${user != null}"><h6 th:text="${user.getFullName()}"></h6>
 
-    <div class="container" sec:authorize="isAuthenticated()"><a th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:href="@{'/profile/'+${user.id}+'/collections/new'}">add</a></div>
+    <div class="container" sec:authorize="isAuthenticated()"><a class="btn btn-primary add" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}" th:href="@{'/profile/'+${user.id}+'/collections/new'}">Add</a></div>
     <h6>Collections</h6>
     <section class="row">
         <th:block th:each="col : ${collections}">

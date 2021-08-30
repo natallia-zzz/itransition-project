@@ -74,13 +74,13 @@ public class Item {
     private Double numberField3;
 
     @Column
-    private Date dateField1;
+    private Date dateField1= new java.sql.Date(System.currentTimeMillis());
 
     @Column
-    private Date dateField2;
+    private Date dateField2= new java.sql.Date(System.currentTimeMillis());
 
     @Column
-    private Date dateField3;
+    private Date dateField3= new java.sql.Date(System.currentTimeMillis());
 
     @Column
     private Boolean booleanField1 = false;
@@ -256,5 +256,26 @@ public class Item {
     public String markdownToHtml() {
         HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
         return htmlMarcdown.toHtml(this.textField1);
+    }
+    public String showTextField1(){
+        if(this.textField1 == null || this.textField1.isEmpty()){
+            return "";
+        }
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField1);
+    }
+    public String showTextField2(){
+        if(this.textField2 == null || this.textField2.isEmpty()){
+            return "";
+        }
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField2);
+    }
+    public String showTextField3(){
+        if(this.textField3 == null || this.textField3.isEmpty()){
+            return "";
+        }
+        HtmlMarcdown htmlMarcdown =new HtmlMarcdown();
+        return htmlMarcdown.toHtml(this.textField3);
     }
 }

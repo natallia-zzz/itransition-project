@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
@@ -19,18 +20,34 @@
             <input type="hidden" th:field="*{searchString}">
             <div class="container">
                 <p><strong>Filters:</strong>
-                    <select id="filter-tags" th:field = "*{filterList}" multiple="multiple">
+<!--                    <select id="filter-tags" th:field = "*{filterList}" multiple="multiple">-->
+<!--                        <option th:each="tag: ${filterTags}"-->
+<!--                                th:value="${tag}" th:text="${tag}">-->
+<!--                    </select>-->
+                <div class="form-group blu-margin" >
+                    <select class="form-control" th:field="*{filterList}" id="filter-tags" name="filter-tags">
+                        <option value="">Select topic</option>
                         <option th:each="tag: ${filterTags}"
                                 th:value="${tag}" th:text="${tag}">
                     </select>
+
+                </div>
                 </p>
-                <input type="submit" value="filter"/>
+<!--                <input type="submit" value="filter"/>-->
+                <div class="container-fluid">
+                    <button type="submit" class="btn btn-primary" value="filter/">Filter</button>
+<!--                    <button type="submit" class="btn btn-primary" value="clear/">Clear</button>-->
+                </div>
+
             </div>
         </form>
         <form th:action="@{/searchResults}" th:object="${filter}">
             <input type="hidden" th:field="*{searchString}" th:value="cancel">
-            <input type="submit" value="clear"/>
+            <div class="container-fluid">
+                <button type="submit" class="btn btn-primary" value="clear/">Clear</button>
+            </div>
         </form>
+        </div>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
@@ -42,7 +59,10 @@
             <tbody>
             <tr th:each="item: ${listItems}">
                 <td th:text="${item.collection.name}">Item ID</td>
-                <td th:text="${item.name}"></td>
+                <td>
+                    <a th:href="@{'/profile/'+${item.collection.owner.id}+'/collections/' + ${item.collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
+                    <!--                        <a th:href="@{'/profile/' + ${user.id}}" th:text="${user.getFullName()}" />-->
+                </td>
                 <td>
                     <ul>
                         <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
@@ -52,14 +72,9 @@
             </tbody>
         </table>
     </div>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+</div>
+
 <div class="col-1">
-    <h6>Search results</h6>
     <table>
         <!--/*@thymesVar id="listUsers" type="java.util.List<com.example.project.entity.User>"*/-->
         <th:block th:each="item : ${searchItems}">
