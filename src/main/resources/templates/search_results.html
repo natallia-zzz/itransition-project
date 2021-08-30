@@ -1,4 +1,57 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Collections</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div class="container text-center">
+    <div>
+        <h1>Search results</h1>
+    </div>
+    <div>
+        <form th:action="@{/searchResults}" th:object="${filter}">
+            <input type="hidden" th:field="*{searchString}">
+            <div class="container">
+                <p><strong>Filters:</strong>
+                    <select id="filter-tags" th:field = "*{filterList}" multiple="multiple">
+                        <option th:each="tag: ${filterTags}"
+                                th:value="${tag}" th:text="${tag}">
+                    </select>
+                </p>
+                <input type="submit" value="filter"/>
+            </div>
+        </form>
+        <form th:action="@{/searchResults}" th:object="${filter}">
+            <input type="hidden" th:field="*{searchString}" th:value="cancel">
+            <input type="submit" value="clear"/>
+        </form>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Collection name</th>
+                <th>Name</th>
+                <th>Tags</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item: ${listItems}">
+                <td th:text="${item.collection.name}">Item ID</td>
+                <td th:text="${item.name}"></td>
+                <td>
+                    <ul>
+                        <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>
+                    </ul>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

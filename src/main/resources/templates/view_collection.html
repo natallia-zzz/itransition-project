@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
@@ -58,6 +59,97 @@
 
                 </div>
             </div>
+            <h5>Optional fields</h5>
+            <div class="container">
+                <label>textfield: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield1}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>textfield: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield2}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>textfield: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{textfield3}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>single line field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield1}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>single line field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield2}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>single line field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{stringfield3}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>number field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield1}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>number field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield2}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>number field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{numberfield3}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>date field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield1}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>date field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield2}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>date field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{datefield3}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>boolean field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield1}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>boolean field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield2}"></input>
+                </div>
+            </div>
+            <div class="container">
+                <label>boolean field: </label>
+                <div class="container">
+                    <input type="text" class="form-control" rows="10" th:field="*{booleanfield3}"></input>
+                </div>
+            </div>
 
 <br>
         <div class="col">
@@ -87,6 +179,26 @@
                 <input type="text" th:field="*{collection.topic.name}" class="form-control" readonly />
             </div>
         </div>
+        <div class="container">
+            <label>Other fields:</label>
+            <ul>
+                <li th:if="${collection.checkTextfield1()}" th:text="${collection.getTextfield1}"></li>
+                <li th:if="${collection.checkTextfield2()}" th:text="${collection.getTextfield2}"></li>
+                <li th:if="${collection.checkTextfield3()}" th:text="${collection.getTextfield3}"></li>
+                <li th:if="${collection.checkStringfield1()}" th:text="${collection.getStringfield1}"></li>
+                <li th:if="${collection.checkStringfield2()}" th:text="${collection.getStringfield2}"></li>
+                <li th:if="${collection.checkStringfield3()}" th:text="${collection.getStringfield3}"></li>
+                <li th:if="${collection.checkNumberfield1()}" th:text="${collection.getNumberfield1}"></li>
+                <li th:if="${collection.checkNumberfield2()}" th:text="${collection.getNumberfield2}"></li>
+                <li th:if="${collection.checkNumberfield3()}" th:text="${collection.getNumberfield3}"></li>
+                <li th:if="${collection.checkDatefield1()}" th:text="${collection.getDatefield1}"></li>
+                <li th:if="${collection.checkDatefield2()}" th:text="${collection.getDatefield2}"></li>
+                <li th:if="${collection.checkDatefield3()}" th:text="${collection.getDatefield3}"></li>
+                <li th:if="${collection.checkBooleanfield1()}" th:text="${collection.getBooleanfield1}"></li>
+                <li th:if="${collection.checkBooleanfield2()}" th:text="${collection.getBooleanfield2}"></li>
+                <li th:if="${collection.checkBooleanfield3()}" th:text="${collection.getBooleanfield3}"></li>
+            </ul>
+        </div>
     </div>
 
     <div class="col-5" sec:authorize="!isAuthenticated()">
@@ -109,6 +221,26 @@
                 <input type="text" th:field="*{collection.topic.name}" class="form-control" readonly />
             </div>
         </div>
+        <div class="container">
+            <label>Other fields:</label>
+            <ul>
+                <li th:if="${collection.checkTextfield1()}" th:text="${collection.getTextfield1}"></li>
+                <li th:if="${collection.checkTextfield2()}" th:text="${collection.getTextfield2}"></li>
+                <li th:if="${collection.checkTextfield3()}" th:text="${collection.getTextfield3}"></li>
+                <li th:if="${collection.checkStringfield1()}" th:text="${collection.getStringfield1}"></li>
+                <li th:if="${collection.checkStringfield2()}" th:text="${collection.getStringfield2}"></li>
+                <li th:if="${collection.checkStringfield3()}" th:text="${collection.getStringfield3}"></li>
+                <li th:if="${collection.checkNumberfield1()}" th:text="${collection.getNumberfield1}"></li>
+                <li th:if="${collection.checkNumberfield2()}" th:text="${collection.getNumberfield2}"></li>
+                <li th:if="${collection.checkNumberfield3()}" th:text="${collection.getNumberfield3}"></li>
+                <li th:if="${collection.checkDatefield1()}" th:text="${collection.getDatefield1}"></li>
+                <li th:if="${collection.checkDatefield2()}" th:text="${collection.getDatefield2}"></li>
+                <li th:if="${collection.checkDatefield3()}" th:text="${collection.getDatefield3}"></li>
+                <li th:if="${collection.checkBooleanfield1()}" th:text="${collection.getBooleanfield1}"></li>
+                <li th:if="${collection.checkBooleanfield2()}" th:text="${collection.getBooleanfield2}"></li>
+                <li th:if="${collection.checkBooleanfield3()}" th:text="${collection.getBooleanfield3}"></li>
+            </ul>
+        </div>
 </div>
 
     <div class="col-5">
@@ -125,17 +257,30 @@
             </div>
         </div>
 <br>
-        <div>
-
-
+        <div class="table-responsive">
 
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Item ID</th>
-                    <th>Name</th>
-                    <th>Tags</th>
                     <th></th>
+                    <th>Name</th>
+                    <th th:if="${collection.checkTextfield1()}" th:text="${collection.getTextfield1}"></th>
+                    <th th:if="${collection.checkTextfield2()}" th:text="${collection.getTextfield2}"></th>
+                    <th th:if="${collection.checkTextfield3()}" th:text="${collection.getTextfield3}"></th>
+                    <th th:if="${collection.checkStringfield1()}" th:text="${collection.getStringfield1}"></th>
+                    <th th:if="${collection.checkStringfield2()}" th:text="${collection.getStringfield2}"></th>
+                    <th th:if="${collection.checkStringfield3()}" th:text="${collection.getStringfield3}"></th>
+                    <th th:if="${collection.checkNumberfield1()}" th:text="${collection.getNumberfield1}"></th>
+                    <th th:if="${collection.checkNumberfield2()}" th:text="${collection.getNumberfield2}"></th>
+                    <th th:if="${collection.checkNumberfield3()}" th:text="${collection.getNumberfield3}"></th>
+                    <th th:if="${collection.checkDatefield1()}" th:text="${collection.getDatefield1}"></th>
+                    <th th:if="${collection.checkDatefield2()}" th:text="${collection.getDatefield2}"></th>
+                    <th th:if="${collection.checkDatefield3()}" th:text="${collection.getDatefield3}"></th>
+                    <th th:if="${collection.checkBooleanfield1()}" th:text="${collection.getBooleanfield1}"></th>
+                    <th th:if="${collection.checkBooleanfield2()}" th:text="${collection.getBooleanfield2}"></th>
+                    <th th:if="${collection.checkBooleanfield3()}" th:text="${collection.getBooleanfield3}"></th>
+                    <th>Tags</th>
+                    <th sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getId()} eq ${user.id} or ${#authentication.getPrincipal().getRole()}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -145,8 +290,21 @@
                     <td>
                         <a th:href="@{'/profile/'+${collection.owner.id}+'/collections/' + ${collection.id}+'/view_item/' + ${item.id} }" th:text="${item.name}"></a>
                     </td>
-
-
+                    <td th:if="${collection.checkTextfield1()}"><div  th:text="${item.textField1}"></div></td>
+                    <td th:if="${collection.checkTextfield2()}"><div  th:text="${item.textField2}"></div></td>
+                    <td th:if="${collection.checkTextfield3()}"><div  th:text="${item.textField3}"></div></td>
+                    <td th:if="${collection.checkStringfield1()}" th:text="${item.stringField1}"></td>
+                    <td th:if="${collection.checkStringfield2()}" th:text="${item.stringField2}"></td>
+                    <td th:if="${collection.checkStringfield3()}" th:text="${item.stringField3}"></td>
+                    <td th:if="${collection.checkNumberfield1()}" th:text="${item.numberField1}"></td>
+                    <td th:if="${collection.checkNumberfield2()}" th:text="${item.numberField2}"></td>
+                    <td th:if="${collection.checkNumberfield3()}" th:text="${item.numberField3}"></td>
+                    <td th:if="${collection.checkDatefield1()}" th:text="${item.dateField1}"></td>
+                    <td th:if="${collection.checkDatefield2()}" th:text="${item.dateField2}"></td>
+                    <td th:if="${collection.checkDatefield3()}" th:text="${item.dateField3}"></td>
+                    <td th:if="${collection.checkBooleanfield1()}" th:text="${item.booleanField1}"></td>
+                    <td th:if="${collection.checkBooleanfield2()}" th:text="${item.booleanField2}"></td>
+                    <td th:if="${collection.checkBooleanfield3()}" th:text="${item.booleanField3}"></td>
                     <td>
                         <ul>
                             <li th:each="tag:${item.tags}" th:text="${tag.name}"></li>

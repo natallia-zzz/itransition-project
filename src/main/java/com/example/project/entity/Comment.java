@@ -4,8 +4,12 @@ import com.example.project.HtmlMarcdown;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
 @Entity
+@Indexed
 @Table(name = "comments")
 public class Comment {
     @Id
@@ -21,6 +25,7 @@ public class Comment {
     }
 
     @Column(nullable = false,length = 500)
+    @FullTextField
     private String content;
 
     public Comment(){}
@@ -57,6 +62,7 @@ public class Comment {
     }
 
     @ManyToOne(optional = false,cascade  = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+    @IndexedEmbedded(includeDepth = 2,includePaths = {"collection.description", "name"})
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 

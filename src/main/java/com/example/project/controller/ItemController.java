@@ -52,13 +52,14 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @RequestMapping(value = "/profile/{uid}/collections/{id}/action", method = RequestMethod.GET, params = "add")
     public String newItem(@PathVariable("id") int id,@PathVariable("uid") Long uid, Model model){
-        Collection collection = collectionService.get(id);
+        model.addAttribute("filter", new Filter());
         Item item=new Item();
         item.setCollection(collectionService.get(id));
         item.setName("");
         itemService.update(item);
         model.addAttribute("item", item);
         System.out.println(item.getId());
+        model.addAttribute("itemId", item.getId());
         model.addAttribute("other", "");
         return "new_item";
     }
@@ -66,6 +67,7 @@ public class ItemController {
     @GetMapping("/profile/{uid}/collections/{id}/view_item/{item_id}")
     public String viewItem(Model model,@PathVariable("item_id") int itemId)
     {
+        model.addAttribute("filter", new Filter());
         Item item=itemService.get(itemId);
         Comment comment=new Comment();
         List<Comment> comments=commentService.commentList(itemId);
@@ -152,8 +154,8 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @PostMapping("/profile/{uid}/collections/{id}/add_item")
     public String addItem(@PathVariable("id") int id, @PathVariable("uid") Long uid,
-                          @RequestParam("otherTag") String otherTag,
-                          @RequestParam("item_id") int itemId,  Item it){
+                          @RequestParam("otherTag") String otherTag,@RequestParam("item_id") int itemId, Item item){
+        System.out.println(itemId);
         if(otherTag!=""){
             List<String> tagStringList = Arrays.asList(otherTag.split("\\s*,\\s*"));
             Tag temporaryTag;
@@ -162,17 +164,18 @@ public class ItemController {
                 temporaryTag = tagService.saveTag(element);
                 tags.add(temporaryTag);
             }
-            it.setTags(tags);
+            item.setTags(tags);
         }
-        it.setId(itemId);
-        it.setCollection(collectionService.get(id));
-        itemService.update(it);
+        item.setId(itemId);
+        item.setCollection(collectionService.get(id));
+        itemService.update(item);
         return "redirect:/profile/"+uid+"/collections/"+ id + "/view";
     }
 
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/edit_item/{item_id}")
     public String editItem(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid,Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         Set<Tag> tags = item.getTags();
@@ -209,6 +212,7 @@ public class ItemController {
     @PreAuthorize("hasRole('ADMIN') or #uid == authentication.principal.getId()")
     @GetMapping("/profile/{uid}/collections/{id}/delete_item/{item_id}")
     public String deleteItemConfirmation(@PathVariable("id") int id,@PathVariable("item_id") int itemId, @PathVariable("uid") Long uid, Model model){
+        model.addAttribute("filter", new Filter());
         Collection collection = collectionService.get(id);
         Item item = itemService.get(itemId);
         model.addAttribute("collection", collection);
@@ -241,7 +245,7 @@ public class ItemController {
 
     @RequestMapping(value="/tagsAutocomplete")
     @ResponseBody
-    public List<Tag> plantNamesAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
+    public List<Tag> tagAutocomplete(@RequestParam(value="term", required = false, defaultValue="") String term)  {
         List<Tag> suggestions = new ArrayList<Tag>();
         try {
             // only update when term is three characters.
